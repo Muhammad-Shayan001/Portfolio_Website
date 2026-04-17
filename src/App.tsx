@@ -12,13 +12,11 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
 import BackgroundEffect from './components/BackgroundEffect';
-import CustomCursor from './components/CustomCursor';
 
 export default function App() {
   return (
     <main className="relative min-h-screen bg-[#030014] text-slate-200">
       <Preloader />
-      <CustomCursor />
       <BackgroundEffect />
       
       <Navbar />

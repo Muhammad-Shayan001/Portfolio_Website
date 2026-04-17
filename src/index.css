@@ -106,10 +106,6 @@
 }
 
 @layer base {
-  * {
-    cursor: none !important;
-  }
-  
   body {
     @apply bg-[#030014] text-slate-200 antialiased selection:bg-primary/30 selection:text-white;
     overflow-x: hidden;
