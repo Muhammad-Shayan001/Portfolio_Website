@@ -3,7 +3,8 @@ import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { 
   Layout, Server, Database, Globe, Cpu, 
   Code2, Rocket, Zap, Terminal, Layers,
-  Workflow, ShieldCheck, Box, Palette
+  Workflow, ShieldCheck, Box, Palette,
+  Code
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
@@ -17,16 +18,17 @@ interface TechItem {
 const techStack: TechItem[][] = [
   [
     { name: 'React', icon: <Layout size={22} />, color: '#61DAFB', level: 90 },
-    { name: 'Next.js', icon: <Rocket size={22} />, color: '#ffffff', level: 85 },
+    { name: 'Next JS', icon: <Rocket size={22} />, color: '#ffffff', level: 85 },
     { name: 'TypeScript', icon: <Code2 size={22} />, color: '#3178C6', level: 80 },
     { name: 'Tailwind', icon: <Zap size={22} />, color: '#06B6D4', level: 95 },
     { name: 'HTML/CSS', icon: <Palette size={22} />, color: '#E34F26', level: 95 },
   ],
   [
-    { name: 'Node.js', icon: <Terminal size={22} />, color: '#339933', level: 82 },
+    { name: 'Node JS', icon: <Terminal size={22} />, color: '#339933', level: 82 },
     { name: 'Express', icon: <Server size={22} />, color: '#ffffff', level: 78 },
-    { name: 'PostgreSQL', icon: <Database size={22} />, color: '#4169E1', level: 70 },
-    { name: 'MongoDB', icon: <Layers size={22} />, color: '#47A248', level: 75 },
+    { name: 'Rest API', icon: <Database size={22} />, color: '#4169E1', level: 70 },
+    { name: 'MongoDB', icon: <Layers size={22} />, color: '#47A248', level: 80 },
+    { name: 'Java', icon: <Code size={22} />, color: '#339933', level: 82 },
   ],
   [
     { name: 'Firebase', icon: <Globe size={22} />, color: '#FFCA28', level: 72 },
