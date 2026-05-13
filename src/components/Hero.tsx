@@ -1,6 +1,41 @@
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, Github, Code2, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Github, Sparkles } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
+
+function Scene() {
+  const sphereRef = useRef<any>(null);
+  
+  useFrame(({ clock }) => {
+    if (sphereRef.current) {
+      sphereRef.current.rotation.x = clock.getElapsedTime() * 0.2;
+      sphereRef.current.rotation.y = clock.getElapsedTime() * 0.3;
+    }
+  });
+
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[2, 5, 2]} intensity={1.5} />
+      <directionalLight position={[-2, -5, -2]} intensity={0.5} color="#8b5cf6" />
+      <Sphere ref={sphereRef} args={[1.5, 64, 64]} scale={1.2}>
+        <MeshDistortMaterial
+          color="#3b82f6"
+          attach="material"
+          distort={0.4}
+          speed={2}
+          roughness={0.2}
+          metalness={0.8}
+          emissive="#8b5cf6"
+          emissiveIntensity={0.5}
+          wireframe={true}
+        />
+      </Sphere>
+      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+    </>
+  );
+}
 
 const Typewriter = ({ texts, delay = 0 }: { texts: string[]; delay?: number }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -233,198 +268,28 @@ export default function Hero() {
           </motion.div>
         </motion.div>
         
-        {/* Right Visual */}
-        <div className="relative hidden md:block">
+        {/* Right Visual - 3D Sphere */}
+        <div className="relative hidden md:block w-full h-full min-h-[500px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-            className="relative z-10"
+            className="absolute inset-0 z-10"
           >
             <div 
-              className="relative w-full aspect-square max-w-[520px] mx-auto perspective-1000"
+              className="relative w-full h-full max-w-[500px] mx-auto perspective-1000"
               style={{ transform: `translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
             >
-              <motion.div
-                animate={{ 
-                  y: [0, -15, 0],
-                  rotateY: [-3, 3, -3],
-                  rotateX: [3, -3, 3]
-                }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 rounded-[40px] overflow-hidden group"
-                style={{
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
-                }}
-              >
-                {/* Animated gradient border */}
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                  className="absolute -inset-[1px] rounded-[40px] opacity-30 group-hover:opacity-60 transition-opacity duration-700 z-30"
-                  style={{
-                    background: 'conic-gradient(from 0deg, transparent, #8b5cf6, transparent, #3b82f6, transparent)',
-                  }}
-                />
-
-                {/* Background Image */}
-                <img
-                  src="/hero-dev.png"
-                  alt="Modern software development"
-                  className="absolute inset-0 w-full h-full object-cover object-center"
-                />
-                
-                {/* Gradient overlays for readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/60 to-[#030014]/20 z-10" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                {/* Content overlay */}
-                <div className="absolute inset-0 z-20 p-8 flex flex-col justify-between">
-                  <div className="flex justify-between items-start">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-primary backdrop-blur-md"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.15))',
-                        boxShadow: '0 0 20px rgba(139, 92, 246, 0.2)',
-                        border: '1px solid rgba(139, 92, 246, 0.15)',
-                      }}
-                    >
-                      <Code2 size={24} />
-                    </div>
-                    <motion.div 
-                      animate={{ scale: [1, 1.05, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(52, 211, 153, 0.08))',
-                        border: '1px solid rgba(52, 211, 153, 0.25)',
-                        color: '#34d399',
-                        boxShadow: '0 0 12px rgba(52, 211, 153, 0.15)',
-                      }}
-                    >
-                      ● LIVE
-                    </motion.div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-2xl font-display font-black mb-2 text-white drop-shadow-lg">Modern Architecture</h3>
-                    <p className="text-sm text-slate-300/90 mb-5 drop-shadow-md">Building scalable systems with React & Node.js</p>
-                    
-                    <div className="space-y-3">
-                      <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: '92%' }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 2, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                          className="h-full rounded-full relative overflow-hidden"
-                          style={{ background: 'linear-gradient(90deg, #8b5cf6, #3b82f6, #22d3ee)' }}
-                        >
-                          <motion.div
-                            animate={{ x: ['-100%', '200%'] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                            className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                          />
-                        </motion.div>
-                      </div>
-                      <div className="flex justify-between text-[10px] uppercase tracking-widest font-bold">
-                        <span className="text-slate-400">Performance</span>
-                        <span className="text-primary">98%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <Canvas camera={{ position: [0, 0, 5], fov: 45 }} className="w-full h-full animate-float">
+                <Scene />
+              </Canvas>
               
-              {/* Floating Element - Top Right */}
-              <motion.div
-                animate={{ y: [0, 15, 0], x: [0, 8, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -top-8 -right-8 w-36 h-36 rounded-3xl p-6 flex flex-col justify-center items-center gap-3"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <motion.div 
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-cyan"
-                  style={{ background: 'rgba(34, 211, 238, 0.15)', boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)' }}
-                >
-                  <Zap size={18} />
-                </motion.div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Innovation</span>
-              </motion.div>
-              
-              {/* Floating Element - Bottom Left */}
-              <motion.div
-                animate={{ y: [0, -12, 0], x: [0, -8, 0], rotate: [0, -3, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -bottom-6 -left-6 w-52 h-24 rounded-3xl p-5 flex items-center gap-4"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <div className="flex -space-x-3">
-                  {['#8b5cf6', '#3b82f6', '#22d3ee'].map((color, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 1.5 + i * 0.1 }}
-                      className="w-9 h-9 rounded-full border-2 border-[#030014]"
-                      style={{ background: `linear-gradient(135deg, ${color}, ${color}88)` }}
-                    />
-                  ))}
-                </div>
-                <div>
-                  <span className="text-[10px] font-black text-slate-400 leading-tight uppercase tracking-widest">Trusted by</span>
-                  <div className="text-sm font-bold text-white">10+ Clients</div>
-                </div>
-              </motion.div>
+              {/* Decorative Glow behind 3D object */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-primary/20 rounded-full blur-[100px] pointer-events-none z-0" />
             </div>
           </motion.div>
-          
-          {/* Background Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] -z-10">
-            <div className="absolute inset-0 bg-primary/8 blur-[150px] animate-aurora" />
-            <div className="absolute inset-[20%] bg-secondary/6 blur-[120px] animate-aurora" style={{ animationDelay: '5s' }} />
-          </div>
         </div>
       </div>
-      
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-      >
-        <motion.span 
-          animate={{ opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold font-mono"
-        >
-          Scroll Down
-        </motion.span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-8 h-12 rounded-full border border-white/10 flex items-start justify-center p-2"
-        >
-          <motion.div 
-            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-2 rounded-full bg-primary"
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
