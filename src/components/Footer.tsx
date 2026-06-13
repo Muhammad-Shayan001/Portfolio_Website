@@ -9,13 +9,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-16 sm:py-20 relative overflow-hidden border-t border-white/[0.04]">
+    <footer className="py-16 sm:py-20 relative overflow-hidden border-t border-white/4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-4 gap-10 sm:gap-12 mb-16 sm:mb-20">
           
           {/* Brand */}
           <div className="md:col-span-2">
-            <a href="#home" className="text-3xl font-display font-black tracking-tighter flex items-center gap-2.5 mb-6 group inline-flex">
+            <a href="#home" className="text-3xl font-display font-black tracking-tighter inline-block mb-6 group">
               <motion.span 
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 className="w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden"
@@ -36,7 +36,7 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               {[
                 { icon: <Github size={18} />, href: 'https://github.com/Muhammad-Shayan001', color: '#fff' },
-                { icon: <Linkedin size={18} />, href: '#', color: '#0A66C2' },
+                { icon: <Linkedin size={18} />, href: 'https://www.linkedin.com/in/muhammad-shayan-98113a260/', color: '#0A66C2' },
                 { icon: <Twitter size={18} />, href: '#', color: '#1DA1F2' },
               ].map((social, i) => (
                 <motion.a
@@ -96,7 +96,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Email address"
-                className="flex-1 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] focus:border-primary/40 transition-all outline-none text-sm text-white placeholder:text-slate-600/60"
+                className="flex-1 px-4 py-3 rounded-xl bg-white/3 border border-white/6 focus:border-primary/40 transition-all outline-none text-sm text-white placeholder:text-slate-600/60"
               />
               <motion.button 
                 whileHover={{ scale: 1.05 }}
@@ -114,7 +114,7 @@ export default function Footer() {
         </div>
         
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="pt-8 border-t border-white/4 flex flex-col sm:flex-row items-center justify-between gap-6">
           <p className="text-slate-600 text-sm font-medium flex items-center gap-1.5">
             © {currentYear} Muhammad Shayan. Built with 
             <motion.span
@@ -146,7 +146,7 @@ export default function Footer() {
       </div>
       
       {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[40%] bg-primary/[0.03] blur-[120px] -z-10" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[40%] bg-primary/3 blur-[120px] -z-10" />
     </footer>
   );
 }

@@ -3,9 +3,43 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import { Github, ExternalLink, Code2, Rocket, Sparkles, Eye } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
-const projects = [
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  github?: string;
+  live: string;
+  category: string;
+  image: string;
+  featured?: boolean;
+  color: string;
+};
+
+const projects: Project[] = [
   {
     id: 1,
+    title: 'Hospital Management System',
+    description: 'A polished hospital management platform for appointments, patient records, staff coordination, and streamlined medical workflows.',
+    tech: ['Next.js', 'React', 'Dashboard UI'],
+    live: 'https://hospital-management-website-8c6lhq3h3.vercel.app/',
+    category: 'Healthcare',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    featured: true,
+    color: '#10b981',
+  },
+  {
+    id: 2,
+    title: 'School Management System',
+    description: 'A modern school management experience with role-based dashboards, academic tracking, attendance, and communication tools.',
+    tech: ['React', 'Management App', 'UI/UX'],
+    live: 'https://skolic-schools-management-app.vercel.app/',
+    category: 'Education',
+    image: 'https://skolic-schools-management-app.vercel.app/images/dashboard.png',
+    featured: true,
+    color: '#38bdf8',
+  },
+  {
     title: 'Full Stack Online Store',
     description: 'A comprehensive full-stack online store with dynamic product listings, user authentication, and seamless checkout experience.',
     tech: ['Next.js', 'React', 'Tailwind CSS'],
@@ -13,11 +47,9 @@ const projects = [
     live: 'https://online-store-2tw6.vercel.app/',
     category: 'Fullstack',
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800',
-    featured: true,
     color: '#8b5cf6',
   },
   {
-    id: 2,
     title: 'Modern Portfolio',
     description: 'A highly interactive and visually stunning personal portfolio website featuring sleek animations and dark mode aesthetics.',
     tech: ['React', 'Framer Motion', 'Tailwind CSS'],
@@ -28,7 +60,6 @@ const projects = [
     color: '#3b82f6',
   },
   {
-    id: 3,
     title: 'Fashion E-commerce',
     description: 'An elegant fashion e-commerce platform with a minimalist design, advanced filtering, and smooth navigation.',
     tech: ['React', 'Node.js', 'Express'],
@@ -39,7 +70,6 @@ const projects = [
     color: '#22d3ee',
   },
   {
-    id: 4,
     title: 'Karachi BBQ Restaurant',
     description: 'A mouth-watering restaurant landing page with an interactive menu, reservations system, and beautiful food typography.',
     tech: ['React', 'Tailwind CSS', 'Vite'],
@@ -51,9 +81,9 @@ const projects = [
   },
 ];
 
-const categories = ['All', 'Frontend', 'Fullstack', 'Creative'];
+const categories = ['All', 'Healthcare', 'Education', 'Frontend', 'Fullstack', 'Creative'];
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -112,7 +142,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         animate={{
           opacity: isHovered ? 0.8 : 0.2,
         }}
-        className="absolute -inset-[1px] rounded-[36px] overflow-hidden"
+        className="absolute -inset-px rounded-[36px] overflow-hidden"
       >
         <motion.div
           animate={{ rotate: [0, 360] }}
@@ -151,7 +181,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         {/* Image Container */}
         <div className={cn(
           "relative overflow-hidden",
-          project.featured ? "lg:w-1/2 aspect-[16/10] lg:aspect-auto" : "aspect-[16/10]"
+          project.featured ? "lg:w-1/2 aspect-16/10 lg:aspect-auto" : "aspect-16/10"
         )}>
           <motion.img
             src={project.image}
@@ -160,7 +190,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/40 to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-linear-to-t from-[#030014] via-[#030014]/40 to-transparent opacity-80" />
           
           {/* Hover Overlay */}
           <motion.div 
@@ -168,23 +198,26 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             className="absolute inset-0 flex items-center justify-center gap-4 backdrop-blur-sm"
             style={{ background: `${project.color}10` }}
           >
+            {project.github && (
+              <motion.a
+                href={project.github}
+                target="_blank"
+                initial={{ y: 20, opacity: 0 }}
+                animate={isHovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+                transition={{ delay: 0.05 }}
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-14 h-14 rounded-2xl bg-white text-black flex items-center justify-center shadow-xl"
+              >
+                <Github size={22} />
+              </motion.a>
+            )}
             <motion.a
-              href={project.github}
+              href={project.live}
               target="_blank"
               initial={{ y: 20, opacity: 0 }}
               animate={isHovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-              transition={{ delay: 0.05 }}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 rounded-2xl bg-white text-black flex items-center justify-center shadow-xl"
-            >
-              <Github size={22} />
-            </motion.a>
-            <motion.a
-              href={project.live}
-              initial={{ y: 20, opacity: 0 }}
-              animate={isHovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-              transition={{ delay: 0.1 }}
+              transition={{ delay: project.github ? 0.1 : 0.05 }}
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.95 }}
               className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl text-white"
@@ -240,19 +273,19 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             {project.description}
           </p>
           
-          <div className="flex items-center justify-between pt-5 border-t border-white/[0.04]">
+          <div className="flex items-center justify-between pt-5 border-t border-white/4">
             <div className="flex items-center gap-2 text-slate-500 text-xs font-bold">
               <Sparkles size={14} style={{ color: project.color }} />
               <span>High Performance</span>
             </div>
             <motion.a
-              href={project.github}
+              href={project.live}
               target="_blank"
               whileHover={{ x: 4 }}
               className="text-white text-sm font-bold flex items-center gap-2 group/link"
             >
               <Eye size={16} className="group-hover/link:text-primary transition-colors" />
-              View Project
+              Live Demo
               <Rocket size={14} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-0.5 transition-transform" style={{ color: project.color }} />
             </motion.a>
           </div>
@@ -272,7 +305,7 @@ export default function Projects() {
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-8">
@@ -293,7 +326,7 @@ export default function Projects() {
               transition={{ delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-display font-black mb-4"
             >
-              Featured <span className="text-gradient">Projects</span>
+              Selected <span className="text-gradient">Projects</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -302,7 +335,7 @@ export default function Projects() {
               transition={{ delay: 0.2 }}
               className="text-slate-400 max-w-xl text-base sm:text-lg"
             >
-              A curated collection of my best work — from complex full-stack apps to creative frontend experiments.
+              A curated collection of my best work across healthcare, education, and full-stack product experiences.
             </motion.p>
           </div>
           

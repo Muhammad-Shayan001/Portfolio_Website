@@ -22,14 +22,14 @@ export default function Contact() {
 
   const socials = [
     { icon: <Github size={22} />, href: 'https://github.com/Muhammad-Shayan001', label: 'GitHub', color: '#fff' },
-    { icon: <Linkedin size={22} />, href: '#', label: 'LinkedIn', color: '#0A66C2' },
+    { icon: <Linkedin size={22} />, href: 'https://www.linkedin.com/in/muhammad-shayan-98113a260/', label: 'LinkedIn', color: '#0A66C2' },
     { icon: <Twitter size={22} />, href: '#', label: 'Twitter', color: '#1DA1F2' },
   ];
 
   return (
     <section id="contact" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
@@ -197,7 +197,7 @@ export default function Contact() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Muhammad Shayan"
-                      className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] focus:border-primary/40 focus:bg-white/[0.05] transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
+                      className="w-full px-5 py-4 rounded-2xl bg-white/3 border border-white/6 focus:border-primary/40 focus:bg-white/5 transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
                       style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)' }}
                     />
                   </div>
@@ -208,7 +208,7 @@ export default function Contact() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="hello@example.com"
-                      className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] focus:border-primary/40 focus:bg-white/[0.05] transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
+                      className="w-full px-5 py-4 rounded-2xl bg-white/3 border border-white/6 focus:border-primary/40 focus:bg-white/5 transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
                       style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)' }}
                     />
                   </div>
@@ -221,7 +221,7 @@ export default function Contact() {
                     value={formState.subject}
                     onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
                     placeholder="Let's discuss a project..."
-                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] focus:border-primary/40 focus:bg-white/[0.05] transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
+                    className="w-full px-5 py-4 rounded-2xl bg-white/3 border border-white/6 focus:border-primary/40 focus:bg-white/5 transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 font-medium text-sm"
                     style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)' }}
                   />
                 </div>
@@ -233,7 +233,7 @@ export default function Contact() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell me about your project..."
-                    className="w-full px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] focus:border-primary/40 focus:bg-white/[0.05] transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 resize-none font-medium text-sm"
+                    className="w-full px-5 py-4 rounded-2xl bg-white/3 border border-white/6 focus:border-primary/40 focus:bg-white/5 transition-all duration-300 outline-none text-white placeholder:text-slate-600/60 resize-none font-medium text-sm"
                     style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)' }}
                   />
                 </div>

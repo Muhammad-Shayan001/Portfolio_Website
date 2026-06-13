@@ -1,41 +1,6 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, Github, Sparkles } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
-
-function Scene() {
-  const sphereRef = useRef<any>(null);
-  
-  useFrame(({ clock }) => {
-    if (sphereRef.current) {
-      sphereRef.current.rotation.x = clock.getElapsedTime() * 0.2;
-      sphereRef.current.rotation.y = clock.getElapsedTime() * 0.3;
-    }
-  });
-
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[2, 5, 2]} intensity={1.5} />
-      <directionalLight position={[-2, -5, -2]} intensity={0.5} color="#8b5cf6" />
-      <Sphere ref={sphereRef} args={[1.5, 64, 64]} scale={1.2}>
-        <MeshDistortMaterial
-          color="#3b82f6"
-          attach="material"
-          distort={0.4}
-          speed={2}
-          roughness={0.2}
-          metalness={0.8}
-          emissive="#8b5cf6"
-          emissiveIntensity={0.5}
-          wireframe={true}
-        />
-      </Sphere>
-      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
-    </>
-  );
-}
 
 const Typewriter = ({ texts, delay = 0 }: { texts: string[]; delay?: number }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -75,12 +40,12 @@ const Typewriter = ({ texts, delay = 0 }: { texts: string[]; delay?: number }) =
   return (
     <span className="relative">
       <span className="text-gradient">{currentText}</span>
-      <motion.span
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 0.6, repeat: Infinity }}
-        className="inline-block w-[3px] h-[0.85em] ml-1 align-middle rounded-full"
-        style={{ background: 'linear-gradient(180deg, #8b5cf6, #3b82f6)' }}
-      />
+        <motion.span
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 0.6, repeat: Infinity }}
+          className="inline-block w-0.75 h-[0.85em] ml-1 align-middle rounded-full"
+          style={{ background: 'linear-gradient(180deg, #8b5cf6, #3b82f6)' }}
+        />
     </span>
   );
 };
@@ -268,8 +233,8 @@ export default function Hero() {
           </motion.div>
         </motion.div>
         
-        {/* Right Visual - 3D Sphere */}
-        <div className="relative hidden md:block w-full h-full min-h-[500px]">
+        {/* Right Visual - Web Development Image */}
+        <div className="relative hidden md:block w-full h-full min-h-125">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -277,15 +242,29 @@ export default function Hero() {
             className="absolute inset-0 z-10"
           >
             <div 
-              className="relative w-full h-full max-w-[500px] mx-auto perspective-1000"
+              className="relative w-full h-full max-w-125 mx-auto perspective-1000"
               style={{ transform: `translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
             >
-              <Canvas camera={{ position: [0, 0, 5], fov: 45 }} className="w-full h-full animate-float">
-                <Scene />
-              </Canvas>
-              
-              {/* Decorative Glow behind 3D object */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-primary/20 rounded-full blur-[100px] pointer-events-none z-0" />
+              <div className="absolute inset-0 rounded-4xl glass-strong overflow-hidden border border-white/10 shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200"
+                  alt="Web development workspace"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-linear-to-tr from-[#030014] via-[#030014]/55 to-transparent" />
+                <div className="absolute inset-x-6 bottom-6 rounded-3xl border border-white/10 bg-[#030014]/75 backdrop-blur-xl p-5">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-300">Web Development</p>
+                  </div>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                    Clean interfaces, scalable builds, and responsive experiences designed for modern users.
+                  </p>
+                </div>
+              </div>
+
+              <div className="absolute -inset-4 rounded-[2.5rem] bg-primary/10 blur-3xl -z-10" />
             </div>
           </motion.div>
         </div>
