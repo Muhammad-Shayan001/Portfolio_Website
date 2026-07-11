@@ -40,6 +40,19 @@ const projects: Project[] = [
     color: '#38bdf8',
   },
   {
+    id: 3,
+    title: 'FJ Store',
+    description: 'A modern e-commerce experience with a premium storefront, product discovery flow, and conversion-focused UI that feels polished on every screen.',
+    tech: ['React', 'E-commerce', 'UI/UX'],
+    github: 'https://github.com/Muhammad-Shayan001',
+    live: 'https://fj-store.vercel.app/',
+    category: 'E-commerce',
+    image: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800',
+    featured: true,
+    color: '#fb923c',
+  },
+  {
+    id: 4,
     title: 'Full Stack Online Store',
     description: 'A comprehensive full-stack online store with dynamic product listings, user authentication, and seamless checkout experience.',
     tech: ['Next.js', 'React', 'Tailwind CSS'],
@@ -50,6 +63,7 @@ const projects: Project[] = [
     color: '#8b5cf6',
   },
   {
+    id: 5,
     title: 'Modern Portfolio',
     description: 'A highly interactive and visually stunning personal portfolio website featuring sleek animations and dark mode aesthetics.',
     tech: ['React', 'Framer Motion', 'Tailwind CSS'],
@@ -60,6 +74,7 @@ const projects: Project[] = [
     color: '#3b82f6',
   },
   {
+    id: 6,
     title: 'Fashion E-commerce',
     description: 'An elegant fashion e-commerce platform with a minimalist design, advanced filtering, and smooth navigation.',
     tech: ['React', 'Node.js', 'Express'],
@@ -70,6 +85,7 @@ const projects: Project[] = [
     color: '#22d3ee',
   },
   {
+    id: 7,
     title: 'Karachi BBQ Restaurant',
     description: 'A mouth-watering restaurant landing page with an interactive menu, reservations system, and beautiful food typography.',
     tech: ['React', 'Tailwind CSS', 'Vite'],
@@ -79,9 +95,20 @@ const projects: Project[] = [
     image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800',
     color: '#f472b6',
   },
+  {
+    id: 8,
+    title: 'AI Productivity Suite',
+    description: 'A fast, thoughtful product experience focused on productivity tools, smart workflows, and modern dashboard storytelling.',
+    tech: ['Next.js', 'AI', 'Design Systems'],
+    github: 'https://github.com/Muhammad-Shayan001',
+    live: 'https://portfolio-website-ivory-one-64.vercel.app/',
+    category: 'Frontend',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800',
+    color: '#818cf8',
+  },
 ];
 
-const categories = ['All', 'Healthcare', 'Education', 'Frontend', 'Fullstack', 'Creative'];
+const categories = ['All', 'Healthcare', 'Education', 'Frontend', 'Fullstack', 'Creative', 'E-commerce'];
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -378,6 +405,26 @@ export default function Projects() {
             ))}
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-10 rounded-[32px] border border-white/10 bg-gradient-to-br from-white/[0.05] via-white/[0.03] to-transparent p-6 sm:p-8 soft-panel"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-3">Featured Launch</p>
+              <h3 className="text-2xl sm:text-3xl font-display font-black text-white mb-3">FJ Store — a premium storefront experience</h3>
+              <p className="text-slate-400 leading-relaxed">This project highlights the kind of polished, conversion-focused interface I love building for modern brands and online businesses.</p>
+            </div>
+            <a href="https://fj-store.vercel.app/" target="_blank" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition-all hover:border-primary/50 hover:text-white">
+              View live demo
+              <Rocket size={14} className="text-primary" />
+            </a>
+          </div>
+        </motion.div>
 
         <motion.div 
           layout

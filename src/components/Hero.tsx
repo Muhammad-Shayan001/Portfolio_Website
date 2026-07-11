@@ -137,19 +137,19 @@ export default function Hero() {
               className="block text-white/90"
               style={{ transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px)` }}
             >
-              Crafting
+              Designing
             </motion.span>
             <motion.span
               className="block"
               style={{ transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)` }}
             >
-              <Typewriter texts={['Digital', 'Modern', 'Scalable', 'Beautiful']} delay={1.5} />
+              <Typewriter texts={['Premium', 'High-Impact', 'Scalable', 'Elegant']} delay={1.5} />
             </motion.span>
             <motion.span 
               className="block text-white/90"
               style={{ transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px)` }}
             >
-              Experiences
+              Digital Products
             </motion.span>
           </motion.h1>
           
@@ -158,12 +158,23 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-base sm:text-lg text-slate-400 max-w-lg mb-10 leading-relaxed"
+            className="text-base sm:text-lg text-slate-400 max-w-lg mb-6 leading-relaxed"
           >
-            Hi, I'm <span className="text-white font-semibold">Muhammad Shayan</span>. 
-            A passionate developer crafting clean, efficient code to solve real-world problems. 
-            Specializing in <span className="text-primary/80">modern web technologies</span> and futuristic UI/UX.
+            Hi, I'm <span className="text-white font-semibold">Muhammad Shayan</span>. I build polished web experiences with thoughtful UX, motion, and clean architecture that feel premium from the first impression.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="flex flex-wrap gap-2 mb-10"
+          >
+            {['React', 'Next.js', 'TypeScript', 'UI/UX'].map((tool) => (
+              <span key={tool} className="px-3.5 py-2 rounded-full text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300 soft-panel">
+                {tool}
+              </span>
+            ))}
+          </motion.div>
           
           {/* CTA Buttons */}
           <motion.div
@@ -233,8 +244,8 @@ export default function Hero() {
           </motion.div>
         </motion.div>
         
-        {/* Right Visual - Web Development Image */}
-        <div className="relative hidden md:block w-full h-full min-h-125">
+        {/* Right Visual - Premium Product Showcase */}
+        <div className="relative hidden md:block w-full h-full min-h-[480px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -242,21 +253,27 @@ export default function Hero() {
             className="absolute inset-0 z-10"
           >
             <div 
-              className="relative w-full h-full max-w-125 mx-auto perspective-1000"
+              className="relative w-full h-full max-w-[560px] mx-auto perspective-1000"
               style={{ transform: `translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
             >
-              <div className="absolute inset-0 rounded-4xl glass-strong overflow-hidden border border-white/10 shadow-2xl">
+              <div className="absolute inset-0 rounded-[2rem] premium-ring overflow-hidden border border-white/10 bg-gradient-to-br from-white/[0.08] to-transparent">
                 <img
                   src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200"
-                  alt="Web development workspace"
+                  alt="Premium web development workspace"
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-linear-to-tr from-[#030014] via-[#030014]/55 to-transparent" />
-                <div className="absolute inset-x-6 bottom-6 rounded-3xl border border-white/10 bg-[#030014]/75 backdrop-blur-xl p-5">
+                <div className="absolute inset-0 bg-linear-to-tr from-[#030014] via-[#030014]/60 to-transparent" />
+                <div className="absolute left-5 top-5 px-3.5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-white soft-panel">
+                  Featured Build
+                </div>
+                <div className="absolute right-5 top-5 px-3.5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-slate-200 border border-white/10 bg-black/30 backdrop-blur-xl">
+                  UI / UX
+                </div>
+                <div className="absolute inset-x-6 bottom-6 rounded-[1.5rem] border border-white/10 bg-[#030014]/80 backdrop-blur-2xl p-5">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
-                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-300">Web Development</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-300">Premium Portfolio Experience</p>
                   </div>
                   <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                     Clean interfaces, scalable builds, and responsive experiences designed for modern users.
