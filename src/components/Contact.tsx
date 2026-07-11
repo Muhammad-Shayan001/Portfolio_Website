@@ -27,11 +27,13 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
+    <section id="contact" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
+      <div className="absolute inset-0 overflow-hidden rounded-[32px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.12),transparent_35%)]" />
+        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+      </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
           
           {/* Left: Info */}
@@ -40,7 +42,7 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center gap-2 text-primary font-bold tracking-[0.2em] uppercase text-xs mb-6"
+              className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
             >
               <MessageSquare size={14} />
               <span className="glow-text">Get In Touch</span>
@@ -50,7 +52,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display font-black mb-8 leading-[1.05]"
+              className="mb-8 text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-6xl"
             >
               Let's Build<br />
               Something <br className="hidden sm:block" />
@@ -62,7 +64,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-slate-400 text-base sm:text-lg mb-10 leading-relaxed max-w-lg"
+              className="mb-10 max-w-lg text-base leading-relaxed text-slate-400 sm:text-lg"
             >
               Have a project in mind or just want to say hi? 
               I'm always open to discussing new opportunities, creative ideas, or partnerships.
@@ -160,13 +162,7 @@ export default function Contact() {
             </div>
             
             <div 
-              className="relative p-8 sm:p-10 lg:p-12 rounded-[40px] overflow-hidden"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-                backdropFilter: 'blur(40px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
-              }}
+              className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-8 backdrop-blur-2xl sm:p-10 lg:p-12"
             >
               {/* Gradient corner accent */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-primary/8 blur-3xl -z-10" />

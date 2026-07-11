@@ -130,17 +130,19 @@ function Key({ item, index }: { item: TechItem; index: number }) {
 
 export default function TechKeyboard() {
   return (
-    <section id="tech-stack" className="py-24 relative overflow-hidden">
-      {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+    <section id="tech-stack" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
+      <div className="absolute inset-0 overflow-hidden rounded-[36px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.12),transparent_35%)]" />
+        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+      </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16 sm:mb-20">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="mb-16 text-center sm:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4"
+            className="mb-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
           >
             <Cpu size={14} />
             <span className="glow-text">The Setup</span>
@@ -150,7 +152,7 @@ export default function TechKeyboard() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-display font-black mb-6"
+            className="mb-6 text-4xl font-black text-white sm:text-5xl lg:text-6xl"
           >
             Mechanical <span className="text-gradient">Tech Stack</span>
           </motion.h2>
@@ -159,7 +161,7 @@ export default function TechKeyboard() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg"
+            className="mx-auto max-w-2xl text-base text-slate-400 sm:text-lg"
           >
             Press the keys to explore my core development arsenal. 
             Each key represents a technology I use to build amazing products.
@@ -185,7 +187,7 @@ export default function TechKeyboard() {
           ))}
           
           {/* Keyboard Base Plate Glow */}
-          <div className="absolute -inset-16 bg-white/[0.02] rounded-[80px] blur-3xl -z-10" />
+          <div className="absolute -inset-16 -z-10 rounded-[80px] bg-white/[0.02] blur-3xl" />
           
           {/* Row labels */}
           <div className="absolute -left-4 sm:-left-16 top-0 bottom-0 flex flex-col justify-around">

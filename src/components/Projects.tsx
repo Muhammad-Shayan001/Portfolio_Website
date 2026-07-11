@@ -330,18 +330,20 @@ export default function Projects() {
   );
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
-      {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
+    <section id="projects" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
+      <div className="absolute inset-0 overflow-hidden rounded-[32px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.12),transparent_35%)]" />
+        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="relative z-10 mx-auto max-w-7xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-8">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center gap-2 text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4"
+              className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
             >
               <Rocket size={14} />
               <span className="glow-text">My Portfolio</span>
@@ -351,7 +353,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display font-black mb-4"
+              className="mb-4 text-4xl font-black text-white sm:text-5xl lg:text-6xl"
             >
               Selected <span className="text-gradient">Projects</span>
             </motion.h2>
@@ -360,7 +362,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-slate-400 max-w-xl text-base sm:text-lg"
+              className="max-w-xl text-base text-slate-400 sm:text-lg"
             >
               A curated collection of my best work across healthcare, education, and full-stack product experiences.
             </motion.p>
@@ -372,11 +374,7 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="flex flex-wrap gap-2 p-1.5 rounded-2xl"
-            style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.06)',
-            }}
+            className="flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/5 p-1.5 backdrop-blur-xl"
           >
             {categories.map((category) => (
               <button
@@ -411,7 +409,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mb-10 rounded-[32px] border border-white/10 bg-gradient-to-br from-white/[0.05] via-white/[0.03] to-transparent p-6 sm:p-8 soft-panel"
+          className="mb-10 rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-[0_15px_50px_rgba(0,0,0,0.18)] sm:p-8"
         >
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="max-w-2xl">
@@ -428,7 +426,7 @@ export default function Projects() {
 
         <motion.div 
           layout
-          className="grid md:grid-cols-2 gap-6 sm:gap-8"
+          className="grid gap-6 md:grid-cols-2 sm:gap-8"
         >
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, i) => (

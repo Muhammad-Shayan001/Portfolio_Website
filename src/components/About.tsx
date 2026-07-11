@@ -58,12 +58,14 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
 
 export default function About() {
   return (
-    <section id="about" className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Section Divider */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+    <section id="about" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
+      <div className="absolute inset-0 overflow-hidden rounded-[36px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.12),transparent_35%)]" />
+        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+      </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-center">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           
           {/* Left: Image/Visual */}
           <motion.div
@@ -75,16 +77,12 @@ export default function About() {
           >
             <TiltCard className="relative z-10">
               <div 
-                className="relative rounded-[40px] overflow-hidden aspect-square max-w-md mx-auto"
-                style={{
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-                }}
+                className="relative mx-auto aspect-square max-w-md overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-[0_20px_80px_rgba(0,0,0,0.35)]"
               >
                 <img
-                  src="/about-dev.png"
+                  src="/avatar.svg"
                   alt="Muhammad Shayan - Web Developer"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+                  className="h-full w-full object-cover transition-all duration-1000 group-hover:scale-[1.02]"
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/30 to-transparent opacity-70" />
@@ -137,7 +135,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center gap-2 text-primary font-bold tracking-[0.2em] uppercase text-xs mb-6"
+              className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
             >
               <User size={14} />
               <span className="glow-text">About Me</span>
@@ -148,7 +146,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display font-black mb-8 leading-[1.05]"
+              className="mb-8 text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-6xl"
             >
               Building the<br />
               Future with <br />
@@ -160,7 +158,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-slate-400 text-base sm:text-lg mb-10 leading-relaxed max-w-xl"
+              className="mb-10 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
             >
               I am a dedicated developer with a strong focus on creating high-performance web applications. 
               My journey started with a curiosity for how things work on the web, which evolved into a career 
@@ -184,11 +182,7 @@ export default function About() {
               ].map((tag) => (
                 <span 
                   key={tag.text}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400"
-                  style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-widest text-slate-400 backdrop-blur-xl"
                 >
                   <span className="text-primary">{tag.icon}</span>
                   {tag.text}
@@ -206,11 +200,7 @@ export default function About() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + i * 0.1 }}
                   whileHover={{ y: -6, scale: 1.02 }}
-                  className="group relative overflow-hidden rounded-3xl p-6 transition-all duration-500"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
+                  className="group relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_50px_rgba(108,79,224,0.16)]"
                 >
                   {/* Hover Glow */}
                   <div 

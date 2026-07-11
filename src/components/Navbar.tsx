@@ -51,7 +51,7 @@ export default function Navbar() {
           y: isScrolled ? 0 : -10,
         }}
         transition={{ duration: 0.4 }}
-        className="absolute inset-0 bg-[#030014]/70 backdrop-blur-2xl border-b border-white/[0.06]"
+        className="absolute inset-0 border-b border-white/10 bg-[#090b10]/80 backdrop-blur-2xl"
         style={{
           boxShadow: isScrolled ? '0 10px 40px rgba(0, 0, 0, 0.3)' : 'none',
         }}
@@ -92,7 +92,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center gap-1 px-2 py-1.5 rounded-full glass-strong"
+            className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 backdrop-blur-xl"
           >
             {navLinks.map((link, i) => (
               <motion.a
@@ -136,7 +136,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05, rotate: 5 }}
             href="https://github.com/Muhammad-Shayan001"
             target="_blank"
-            className="p-2.5 rounded-xl glass border-white/5 hover:border-white/20 transition-all text-slate-400 hover:text-white group"
+            className="group rounded-xl border border-white/10 bg-white/5 p-2.5 text-slate-400 transition-all hover:border-white/20 hover:text-white"
           >
             <Github size={18} className="group-hover:rotate-12 transition-transform" />
           </motion.a>
@@ -151,7 +151,7 @@ export default function Navbar() {
               e.preventDefault();
               document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="group relative px-6 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-[0.15em] overflow-hidden"
+            className="group relative overflow-hidden rounded-full px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em]"
             style={{
               background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
               boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)',
@@ -170,7 +170,7 @@ export default function Navbar() {
         {/* Mobile Menu Toggle */}
         <motion.button
           whileTap={{ scale: 0.9 }}
-          className="md:hidden w-11 h-11 rounded-xl glass border-white/10 flex items-center justify-center text-slate-400"
+          className="md:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           <AnimatePresence mode="wait">
@@ -195,7 +195,7 @@ export default function Navbar() {
             animate={{ opacity: 1, backdropFilter: 'blur(30px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             transition={{ duration: 0.4 }}
-            className="md:hidden fixed inset-0 top-0 left-0 w-full h-screen bg-[#030014]/95 z-40 flex flex-col items-center justify-center"
+            className="md:hidden fixed inset-0 top-0 left-0 z-40 flex h-screen w-full flex-col items-center justify-center bg-[#090b10]/95"
           >
             {/* Decorative blobs */}
             <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 blur-[120px]" />

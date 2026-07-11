@@ -9,8 +9,11 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-16 sm:py-20 relative overflow-hidden border-t border-white/4">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <footer className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
+      <div className="absolute inset-0 overflow-hidden rounded-[32px]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(108,79,224,0.12),transparent_45%)]" />
+      </div>
+      <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid md:grid-cols-4 gap-10 sm:gap-12 mb-16 sm:mb-20">
           
           {/* Brand */}
