@@ -81,60 +81,46 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-            className="lg:w-1/2 relative group"
+            className="group relative lg:w-1/2"
           >
             <TiltCard className="relative z-10">
-              <div 
-                className="relative mx-auto aspect-square max-w-md overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-[0_20px_80px_rgba(0,0,0,0.35)]"
-              >
-                <img
-                  src="/avatar.svg"
-                  alt="Muhammad Shayan - Web Developer"
-                  className="h-full w-full object-cover transition-all duration-1000 group-hover:scale-[1.02]"
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/30 to-transparent opacity-70" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                {/* Floating Stats on Image */}
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute bottom-6 left-6 right-6 glass-strong px-6 py-4 rounded-2xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center text-primary"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.1))',
-                        boxShadow: '0 0 15px rgba(139, 92, 246, 0.15)',
-                      }}
-                    >
-                      <Sparkles size={20} />
+              <div className="relative mx-auto max-w-md overflow-hidden rounded-[34px] border border-white/10 bg-white/5 p-2 shadow-[0_25px_100px_rgba(0,0,0,0.35)]">
+                <div className="relative overflow-hidden rounded-[28px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80"
+                    alt="Professional portrait of Muhammad Shayan"
+                    className="h-[460px] w-full object-cover object-center transition-all duration-1000 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/10 bg-black/50 px-5 py-4 backdrop-blur-xl"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-12 w-12 items-center justify-center rounded-xl text-primary"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.1))',
+                          boxShadow: '0 0 15px rgba(139, 92, 246, 0.15)',
+                        }}
+                      >
+                        <Sparkles size={20} />
+                      </div>
+                      <div>
+                        <div className="text-lg font-black text-white">Full Stack Developer</div>
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Product-focused engineer</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-lg font-black text-white">Full Stack Developer</div>
-                      <div className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold">Expertise Level</div>
-                    </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </div>
               </div>
             </TiltCard>
-            
-            {/* Decorative Elements */}
-            <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary/8 blur-[120px] -z-10 animate-pulse-slow" />
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-secondary/8 blur-[120px] -z-10 animate-pulse-slow" />
-            
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-8 -right-8 w-36 h-36 border border-dashed border-white/[0.06] rounded-full"
-            />
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute -bottom-8 -left-8 w-28 h-28 border border-dashed border-primary/10 rounded-full"
-            />
+
+            <div className="absolute -left-10 -top-10 h-56 w-56 -z-10 rounded-full bg-primary/10 blur-[120px]" />
+            <div className="absolute -bottom-10 -right-8 h-56 w-56 -z-10 rounded-full bg-secondary/10 blur-[120px]" />
           </motion.div>
           
           {/* Right: Content */}
@@ -156,9 +142,8 @@ export default function About() {
               transition={{ delay: 0.1 }}
               className="mb-4 text-center text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-left lg:text-6xl"
             >
-              Building the<br />
-              Future with <br />
-              <span className="text-gradient">Modern Tech</span>
+              Designing thoughtful products<br />
+              with <span className="text-gradient">precision</span> and <span className="text-gradient">care</span>
             </motion.h2>
             <svg viewBox="0 0 180 20" className="mx-auto mb-8 h-6 w-32 lg:mx-0" aria-hidden="true">
               <path d="M4 10C24 2 43 2 64 10C82 17 102 17 122 10C139 4 159 4 176 10" stroke="url(#squiggle)" strokeWidth="2.7" strokeLinecap="round" fill="none" />
@@ -177,11 +162,9 @@ export default function About() {
               transition={{ delay: 0.2 }}
               className="mb-10 max-w-2xl text-center text-base leading-relaxed text-slate-400 sm:text-lg lg:text-left"
             >
-              I am a dedicated developer with a strong focus on creating high-performance web applications. 
-              My journey started with a curiosity for how things work on the web, which evolved into a career 
-              of building complex {' '}
-              <span className="text-white/70 font-medium">digital experiences</span>. I believe in the power of technology to transform 
-              lives and businesses.
+              I combine solid engineering fundamentals with a design-minded approach to build fast, polished, and dependable products.
+              Whether the goal is a marketing website, a SaaS platform, or a complex interaction layer, I focus on clarity, performance,
+              and a premium experience from the first click to the last.
             </motion.p>
 
             {/* Quick Info Cards */}
