@@ -87,8 +87,8 @@ export default function About() {
               <div className="relative mx-auto max-w-md overflow-hidden rounded-[34px] border border-white/10 bg-white/5 p-2 shadow-[0_25px_100px_rgba(0,0,0,0.35)]">
                 <div className="relative overflow-hidden rounded-[28px]">
                   <img
-                    src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80"
-                    alt="Professional portrait of Muhammad Shayan"
+                    src="/professional-dev.png"
+                    alt="Professional developer portrait"
                     className="h-[460px] w-full object-cover object-center transition-all duration-1000 group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-[#030014]/20 to-transparent" />

@@ -93,8 +93,8 @@ export default function Hero() {
               <div className="overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-2">
                 <div className="relative overflow-hidden rounded-[20px]">
                   <img
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80"
-                    alt="Professional portrait of Muhammad Shayan"
+                    src="/professional-dev.png"
+                    alt="Professional developer portrait"
                     className="h-[420px] w-full object-cover object-center"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent" />
