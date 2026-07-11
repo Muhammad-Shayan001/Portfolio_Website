@@ -54,6 +54,21 @@ function DecorativeShape({ className, style }: { className?: string; style?: Rea
   return <div className={className} style={style} />;
 }
 
+function CrystalAccent({ className, accent }: { className?: string; accent: string }) {
+  return (
+    <motion.div
+      animate={{ y: [0, -14, 0], x: [0, 16, 0], rotate: [0, 8, 0] }}
+      transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
+      className={className}
+      style={{
+        background: accent,
+        clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)',
+        boxShadow: '0 0 28px rgba(255,255,255,0.12)',
+      }}
+    />
+  );
+}
+
 export default function Hero() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -77,14 +92,19 @@ export default function Hero() {
   return (
     <section id="home" ref={containerRef} className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_40px_140px_rgba(0,0,0,0.55)] sm:px-8 lg:px-10 lg:py-10">
       <div className="absolute inset-0 overflow-hidden rounded-[36px]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.2),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(244,114,182,0.12),transparent_30%)]" />
-        <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] [background-size:46px_46px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(244,114,182,0.12),transparent_30%)]" />
+        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:46px_46px]" />
+        <svg viewBox="0 0 600 600" className="absolute -right-20 top-0 h-[640px] w-[640px] -rotate-6 opacity-[0.18] blur-3xl" aria-hidden="true">
+          <path d="M305 78C394 94 443 148 452 220C461 291 426 357 371 397C317 436 242 447 179 415C116 383 78 323 77 258C76 193 108 131 163 95C203 70 252 63 305 78Z" fill="rgba(255,255,255,0.7)" />
+          <path d="M307 142C365 158 402 201 404 250C406 299 379 342 333 367C286 392 227 392 188 365C149 338 130 291 132 245C134 198 154 151 200 131C233 116 269 126 307 142Z" fill="rgba(255,255,255,0.35)" />
+          <path d="M292 186C323 196 343 222 344 251C345 281 331 307 307 320C282 334 247 332 221 317C195 302 183 271 186 241C189 211 221 182 252 180C264 179 278 181 292 186Z" fill="rgba(255,255,255,0.18)" />
+        </svg>
         <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full border border-white/10" />
         <div className="absolute left-10 top-12 h-16 w-16 rounded-full border border-white/10" />
         <div className="absolute bottom-8 left-8 h-24 w-24 rounded-full border border-white/10" />
-        <motion.div animate={{ y: [0, -16, 0], x: [0, 18, 0] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-10 top-16 h-20 w-20 rounded-[28px] border border-fuchsia-400/25 bg-fuchsia-500/10 shadow-[0_0_30px_rgba(244,114,182,0.14)]" />
-        <motion.div animate={{ y: [0, 16, 0], x: [0, -12, 0] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} className="absolute bottom-14 left-12 h-16 w-16 rounded-[20px] border border-cyan-400/20 bg-cyan-500/10 shadow-[0_0_25px_rgba(34,211,238,0.13)]" />
-        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-24 top-[45%] h-12 w-12 rounded-full border border-emerald-400/20 bg-emerald-500/10" />
+        <CrystalAccent className="absolute right-12 top-16 h-16 w-16" accent="linear-gradient(135deg, rgba(244,114,182,0.48), rgba(34,211,238,0.22))" />
+        <CrystalAccent className="absolute bottom-14 left-12 h-14 w-14" accent="linear-gradient(135deg, rgba(34,211,238,0.42), rgba(16,185,129,0.22))" />
+        <CrystalAccent className="absolute right-24 top-[45%] h-12 w-12" accent="linear-gradient(135deg, rgba(16,185,129,0.42), rgba(139,92,246,0.22))" />
       </div>
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
@@ -221,8 +241,9 @@ export default function Hero() {
             <div className="relative flex h-full flex-col items-center justify-center rounded-[30px] border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] p-8 shadow-[0_25px_90px_rgba(0,0,0,0.35)]">
               <div className="absolute -left-8 top-8 h-28 w-28 rounded-full border border-fuchsia-400/20 bg-fuchsia-500/10 blur-3xl" />
               <div className="absolute bottom-6 right-10 h-28 w-28 rounded-full border border-cyan-400/20 bg-cyan-500/10 blur-3xl" />
-              <div className="mb-6 rounded-full border border-white/10 bg-black/30 p-2 shadow-[0_0_60px_rgba(108,79,224,0.2)]">
-                <img src="/avatar.svg" alt="Stylized avatar" className="h-56 w-56 rounded-full" />
+              <div className="relative mb-6 rounded-full border border-white/10 bg-black/30 p-2 shadow-[0_0_80px_rgba(108,79,224,0.28)]">
+                <div className="absolute inset-0 rounded-full border border-white/15" />
+                <img src="/avatar.svg" alt="Stylized avatar" className="h-56 w-56 rounded-full object-cover" />
               </div>
               <div className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-sm font-semibold text-slate-300 backdrop-blur-xl">Full-Stack Developer • UI/UX Focus</div>
             </div>

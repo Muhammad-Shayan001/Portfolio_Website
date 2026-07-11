@@ -11,7 +11,13 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
       <div className="absolute inset-0 overflow-hidden rounded-[32px]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(108,79,224,0.12),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(108,79,224,0.16),transparent_45%),radial-gradient(circle_at_top_right,rgba(34,211,238,0.1),transparent_35%)]" />
+        <svg viewBox="0 0 600 600" className="absolute left-[-8%] top-[-18%] h-[620px] w-[620px] rotate-6 opacity-[0.14] blur-3xl" aria-hidden="true">
+          <path d="M310 72C382 82 437 129 446 196C455 264 425 334 369 374C313 414 231 425 167 389C103 353 67 282 75 211C83 141 141 88 217 74C249 68 280 68 310 72Z" fill="rgba(255,255,255,0.68)" />
+          <path d="M307 138C353 147 389 177 393 221C397 266 373 311 330 330C286 350 230 343 192 318C154 294 135 251 147 208C159 165 214 132 307 138Z" fill="rgba(255,255,255,0.32)" />
+        </svg>
+        <div className="absolute right-[8%] top-[16%] h-[220px] w-[220px] rounded-full border border-white/10" />
+        <motion.div animate={{ opacity: [0.3, 0.74, 0.3], y: [0, -10, 0], rotate: [10, 18, 10] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} className="absolute left-[8%] bottom-[18%] h-12 w-12 rounded-[16px] shadow-[0_0_24px_rgba(244,114,182,0.16)]" style={{ background: 'linear-gradient(135deg, rgba(244,114,182,0.4), rgba(34,211,238,0.16))', clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)' }} />
       </div>
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid md:grid-cols-4 gap-10 sm:gap-12 mb-16 sm:mb-20">

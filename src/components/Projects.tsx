@@ -332,8 +332,14 @@ export default function Projects() {
   return (
     <section id="projects" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
       <div className="absolute inset-0 overflow-hidden rounded-[32px]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.12),transparent_35%)]" />
-        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.16),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.1),transparent_30%)]" />
+        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <svg viewBox="0 0 600 600" className="absolute right-[-8%] top-[8%] h-[620px] w-[620px] rotate-3 opacity-[0.16] blur-3xl" aria-hidden="true">
+          <path d="M314 72C404 86 463 149 464 230C465 311 413 381 335 408C257 434 167 415 115 357C63 299 59 208 111 147C162 89 223 60 314 72Z" fill="rgba(255,255,255,0.7)" />
+          <path d="M312 140C367 150 410 189 412 239C414 289 383 337 336 355C289 373 232 362 193 330C154 297 139 251 152 203C165 155 224 130 312 140Z" fill="rgba(255,255,255,0.34)" />
+        </svg>
+        <div className="absolute right-[8%] top-[16%] h-[220px] w-[220px] rounded-full border border-white/10" />
+        <motion.div animate={{ opacity: [0.3, 0.74, 0.3], y: [0, -9, 0], rotate: [14, 24, 14] }} transition={{ duration: 9.2, repeat: Infinity, ease: 'easeInOut' }} className="absolute bottom-[12%] left-[10%] h-12 w-12 rounded-[16px] shadow-[0_0_24px_rgba(34,211,238,0.16)]" style={{ background: 'linear-gradient(135deg, rgba(34,211,238,0.38), rgba(139,92,246,0.16))', clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)' }} />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -357,6 +363,15 @@ export default function Projects() {
             >
               Selected <span className="text-gradient">Projects</span>
             </motion.h2>
+            <svg viewBox="0 0 180 20" className="mb-6 h-6 w-32" aria-hidden="true">
+              <path d="M4 10C24 2 43 2 64 10C82 17 102 17 122 10C139 4 159 4 176 10" stroke="url(#projectSquiggle)" strokeWidth="2.7" strokeLinecap="round" fill="none" />
+              <defs>
+                <linearGradient id="projectSquiggle" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#22d3ee" />
+                </linearGradient>
+              </defs>
+            </svg>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

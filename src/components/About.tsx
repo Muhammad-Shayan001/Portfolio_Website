@@ -60,8 +60,16 @@ export default function About() {
   return (
     <section id="about" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
       <div className="absolute inset-0 overflow-hidden rounded-[36px]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.12),transparent_35%)]" />
-        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(108,79,224,0.16),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.1),transparent_30%)]" />
+        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <svg viewBox="0 0 600 600" className="absolute left-[-8%] top-[8%] h-[620px] w-[620px] -rotate-12 opacity-[0.16] blur-3xl" aria-hidden="true">
+          <path d="M302 82C380 100 430 151 437 221C444 292 410 360 355 398C299 437 218 441 163 406C109 373 78 311 86 245C94 178 147 124 218 98C245 87 274 80 302 82Z" fill="rgba(255,255,255,0.72)" />
+          <path d="M304 146C348 158 384 196 384 244C384 289 354 329 311 344C266 360 213 347 179 318C144 289 134 243 146 201C158 159 204 128 248 129C266 129 285 135 304 146Z" fill="rgba(255,255,255,0.34)" />
+        </svg>
+        <div className="absolute left-[12%] top-[14%] h-[220px] w-[220px] rounded-full border border-white/10" />
+        <div className="absolute bottom-[10%] right-[8%] h-[280px] w-[280px] rounded-full border border-white/10" />
+        <motion.div animate={{ opacity: [0.35, 0.75, 0.35], y: [0, -10, 0], rotate: [12, 20, 12] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} className="absolute left-[10%] top-[16%] h-14 w-14 rounded-[18px] shadow-[0_0_24px_rgba(244,114,182,0.16)]" style={{ background: 'linear-gradient(135deg, rgba(244,114,182,0.42), rgba(34,211,238,0.16))', clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)' }} />
+        <motion.div animate={{ opacity: [0.35, 0.75, 0.35], y: [0, 10, 0], rotate: [-16, -6, -16] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} className="absolute bottom-[12%] right-[10%] h-12 w-12 rounded-[16px] shadow-[0_0_22px_rgba(16,185,129,0.16)]" style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.38), rgba(139,92,246,0.16))', clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)' }} />
       </div>
       
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -135,7 +143,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mb-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"
+              className="mb-6 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary lg:justify-start"
             >
               <User size={14} />
               <span className="glow-text">About Me</span>
@@ -146,19 +154,28 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mb-8 text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-6xl"
+              className="mb-4 text-center text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-left lg:text-6xl"
             >
               Building the<br />
               Future with <br />
               <span className="text-gradient">Modern Tech</span>
             </motion.h2>
+            <svg viewBox="0 0 180 20" className="mx-auto mb-8 h-6 w-32 lg:mx-0" aria-hidden="true">
+              <path d="M4 10C24 2 43 2 64 10C82 17 102 17 122 10C139 4 159 4 176 10" stroke="url(#squiggle)" strokeWidth="2.7" strokeLinecap="round" fill="none" />
+              <defs>
+                <linearGradient id="squiggle" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#22d3ee" />
+                </linearGradient>
+              </defs>
+            </svg>
             
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="mb-10 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
+              className="mb-10 max-w-2xl text-center text-base leading-relaxed text-slate-400 sm:text-lg lg:text-left"
             >
               I am a dedicated developer with a strong focus on creating high-performance web applications. 
               My journey started with a curiosity for how things work on the web, which evolved into a career 

@@ -132,8 +132,14 @@ export default function TechKeyboard() {
   return (
     <section id="tech-stack" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#090b10] px-5 py-8 shadow-[0_25px_110px_rgba(0,0,0,0.35)] sm:px-8 lg:px-10 lg:py-10">
       <div className="absolute inset-0 overflow-hidden rounded-[36px]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.12),transparent_35%)]" />
-        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(108,79,224,0.16),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.1),transparent_30%)]" />
+        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:42px_42px]" />
+        <svg viewBox="0 0 600 600" className="absolute left-[-10%] top-[6%] h-[620px] w-[620px] rotate-6 opacity-[0.16] blur-3xl" aria-hidden="true">
+          <path d="M304 66C394 79 455 138 458 221C461 305 406 379 326 406C248 432 155 412 101 350C48 289 47 200 98 138C150 75 216 56 304 66Z" fill="rgba(255,255,255,0.7)" />
+          <path d="M300 134C357 145 405 181 411 235C417 289 386 340 338 363C291 386 228 382 186 348C144 314 129 253 146 199C162 145 229 122 300 134Z" fill="rgba(255,255,255,0.34)" />
+        </svg>
+        <div className="absolute left-[8%] top-[16%] h-[220px] w-[220px] rounded-full border border-white/10" />
+        <motion.div animate={{ opacity: [0.3, 0.7, 0.3], y: [0, -8, 0], rotate: [12, 20, 12] }} transition={{ duration: 8.8, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-[10%] top-[14%] h-12 w-12 rounded-[16px] shadow-[0_0_24px_rgba(236,72,153,0.16)]" style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.42), rgba(34,211,238,0.16))', clipPath: 'polygon(50% 0%, 100% 35%, 70% 100%, 30% 100%, 0% 35%)' }} />
       </div>
       
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -152,10 +158,19 @@ export default function TechKeyboard() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mb-6 text-4xl font-black text-white sm:text-5xl lg:text-6xl"
+            className="mb-4 text-4xl font-black text-white sm:text-5xl lg:text-6xl"
           >
             Mechanical <span className="text-gradient">Tech Stack</span>
           </motion.h2>
+          <svg viewBox="0 0 180 20" className="mx-auto mb-6 h-6 w-32" aria-hidden="true">
+            <path d="M4 10C24 2 43 2 64 10C82 17 102 17 122 10C139 4 159 4 176 10" stroke="url(#techSquiggle)" strokeWidth="2.7" strokeLinecap="round" fill="none" />
+            <defs>
+              <linearGradient id="techSquiggle" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#8b5cf6" />
+                <stop offset="100%" stopColor="#22d3ee" />
+              </linearGradient>
+            </defs>
+          </svg>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
