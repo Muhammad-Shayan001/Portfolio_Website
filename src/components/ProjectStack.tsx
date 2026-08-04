@@ -251,7 +251,8 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
               </div>
             </article>
           </div>
-      ))}
+        );
+      })}
     </section>
   );
 }
