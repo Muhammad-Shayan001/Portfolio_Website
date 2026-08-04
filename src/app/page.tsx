@@ -1,16 +1,15 @@
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
+// import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="relative bg-[#08080A] min-h-screen text-[#F1F1F3] overflow-x-hidden">
+    <main className="relative bg-[#08080A] min-h-screen text-[#F1F1F3] overflow-x-hidden pt-24">
       {/* Background Subtle Radial Glow Texture */}
       <div
         className="fixed inset-0 opacity-[0.03] pointer-events-none z-0"
@@ -20,8 +19,6 @@ export default function Home() {
         }}
       ></div>
 
-      {/* Fixed Blurred Glass Navbar */}
-      <Navbar />
 
       {/* Hero Section with Video Background */}
       <Hero />
@@ -39,7 +36,7 @@ export default function Home() {
       <Education />
 
       {/* Experience Timeline */}
-      <Experience />
+      {/* <Experience /> */}
 
       {/* Contact Section */}
       <Contact />
