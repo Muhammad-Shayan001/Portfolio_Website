@@ -91,7 +91,7 @@ export default function Skills() {
         >
           <span className="h-px w-8 bg-gradient-to-r from-[#E10600] to-transparent"></span>
           <span className="text-xs font-mono tracking-widest text-[#F5D577] uppercase">
-            02 // Technical Arsenal
+            Technical Arsenal
           </span>
         </motion.div>
 

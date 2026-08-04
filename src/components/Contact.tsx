@@ -74,7 +74,7 @@ export default function Contact() {
         >
           <span className="h-px w-8 bg-gradient-to-r from-[#E10600] to-transparent"></span>
           <span className="text-xs font-mono tracking-widest text-[#F5D577] uppercase">
-            06 // Initiate Contact
+            Get In Touch
           </span>
         </motion.div>
 
