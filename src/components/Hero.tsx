@@ -9,6 +9,28 @@ export default function Hero() {
   const [showHeroImage, setShowHeroImage] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
+  const toggleMute = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // If currently muted, try to unmute and play (user interaction should allow sound).
+    if (video.muted) {
+      video.muted = false;
+      try {
+        await video.play();
+        setIsMuted(false);
+      } catch {
+        // Fallback to muted if autoplay with sound is still blocked
+        video.muted = true;
+        setIsMuted(true);
+      }
+    } else {
+      // Mute immediately
+      video.muted = true;
+      setIsMuted(true);
+    }
+  };
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -81,34 +103,14 @@ export default function Hero() {
 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
 
-        <div className="absolute inset-0 z-10 flex items-end pb-16 px-6 md:px-12">
-          <div className="w-full max-w-4xl rounded-[2rem] border border-white/10 bg-black/65 p-8 backdrop-blur-2xl shadow-2xl shadow-black/50">
-            <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Full Stack Developer</p>
-            <h1 className="mt-6 text-4xl md:text-5xl font-black tracking-tight text-white">
-              I build premium web experiences with clarity, performance, and polish.
-            </h1>
-            <p className="mt-5 text-base leading-relaxed text-zinc-300 max-w-2xl">
-              Modern portfolio and product interfaces designed to look sharp and feel seamless on every screen.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#F5D577] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-black shadow-xl shadow-[#D4AF3740] transition hover:brightness-110"
-              >
-                View Projects
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <button
-                type="button"
-                onClick={() => setIsMuted((prev) => !prev)}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:border-white/20 hover:bg-white/10"
-              >
-                {isMuted ? <VolumeX className="h-4 w-4 text-red-400" /> : <Volume2 className="h-4 w-4 text-emerald-400" />}
-                <span>{isMuted ? "Unmute" : "Mute"}</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        {/* Floating mute/unmute button (removed the large info card above the video) */}
+        <button
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
+          onClick={toggleMute}
+          className="absolute top-6 right-6 z-20 inline-flex items-center gap-2 rounded-full bg-black/40 p-3 backdrop-blur-md border border-white/10 text-white hover:bg-black/60"
+        >
+          {isMuted ? <VolumeX className="h-5 w-5 text-red-400" /> : <Volume2 className="h-5 w-5 text-emerald-400" />}
+        </button>
       </div>
     </section>
   );
