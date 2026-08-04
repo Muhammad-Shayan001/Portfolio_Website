@@ -33,3 +33,5 @@ Ensure that real project screenshots and photos are placed in `public/images/`:
 - `skolic-dashboard.png` (Skolic Project)
 - `fjnexus-platform.png` (FJ Nexus Project)
 - `freelancer-suite.png` (Freelancer Suite Project)
+
+Enjoy!!!
