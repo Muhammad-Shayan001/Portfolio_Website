@@ -1,52 +1,136 @@
 @import "tailwindcss";
 
-@theme {
-  --color-ink: #0E1116;
-  --color-paper: #F6F4EF;
-  --color-signal: #C9622D;
-  --color-steel: #7C8894;
-  --color-line: #242A31;
-}
-
 @layer base {
   :root {
-    --ink: #0E1116;
-    --paper: #F6F4EF;
-    --signal: #C9622D;
-    --steel: #7C8894;
-    --line: #242A31;
-    background-color: var(--ink);
-    color: var(--paper);
+    --bg-primary: #08080A;
+    --text-primary: #F1F1F3;
+    --accent-gold-start: #D4AF37;
+    --accent-gold-mid: #F5D577;
+    --accent-gold-end: #B8860B;
+    --accent-red-deep: #6E0E0E;
+    --accent-red-bright: #E10600;
+    --glass-bg: rgba(12, 12, 16, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-inter), system-ui, sans-serif;
   }
 
   body {
-    background-color: var(--ink);
-    color: var(--paper);
-    font-family: var(--font-inter), sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-fraunces), serif;
-  }
-
-  code, pre, .font-mono {
-    font-family: var(--font-ibm-plex-mono), monospace;
-  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Custom Gradients & Utilities */
+.text-metallic {
+  background: linear-gradient(180deg, #FFFFFF 0%, #C7C7CC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Custom Scrollbar for the Build Log if needed */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.text-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5D577 50%, #B8860B 100%);
+  background-size: 200% 200%;
+  animation: goldShimmer 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+.text-red-glow {
+  color: #FF2C2C;
+  text-shadow: 0 0 12px rgba(225, 6, 0, 0.6);
+}
+
+.btn-red-gradient {
+  background: linear-gradient(135deg, #8B0000 0%, #E10600 100%);
+  color: #FFFFFF;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-red-gradient:hover {
+  box-shadow: 0 0 30px rgba(225, 6, 0, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn-gold-outline {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #F5D577;
+  transition: all 0.3s ease;
+}
+
+.btn-gold-outline:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(245, 213, 119, 0.8);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  transform: translateY(-2px);
+}
+
+.glass-card {
+  background: rgba(15, 15, 20, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(225, 6, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+.border-red-gold-hover {
+  transition: all 0.3s ease;
+}
+.border-red-gold-hover:hover {
+  border-image: linear-gradient(135deg, #E10600, #D4AF37) 1;
+}
+
+/* Animations */
+@keyframes goldShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #261010;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6E0E0E;
 }

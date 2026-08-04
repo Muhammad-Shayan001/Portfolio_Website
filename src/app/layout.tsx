@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,23 +8,25 @@ const inter = Inter({
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-sora",
   display: "swap",
-  axes: ["WONK"], // Fraunces has some nice variable axes if needed
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-  variable: "--font-ibm-plex-mono",
-  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "Muhammad Shayan | Full-Stack Developer",
-  description: "Full-Stack Developer & Founder of FJ NEXUS. I build web apps and school/business systems that ship.",
+  title: "Muhammad Shayan | Full Stack Developer & Software Engineer",
+  description: "Cinematic developer portfolio of Muhammad Shayan - Full Stack Developer crafting clean, high-performance web applications using React, Next.js, Node.js, and TypeScript.",
+  keywords: ["Muhammad Shayan", "Full Stack Developer", "Software Engineer", "Next.js Portfolio", "React Developer", "Karachi Pakistan"],
+  openGraph: {
+    title: "Muhammad Shayan | Full Stack Developer",
+    description: "Passionate developer crafting clean, efficient code to solve real-world problems.",
+    url: "https://github.com/Muhammad-Shayan001",
+    siteName: "Muhammad Shayan Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -33,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable} ${ibmPlexMono.variable}`}>
-      <body className="antialiased bg-[var(--ink)] text-[var(--paper)] selection:bg-[var(--signal)] selection:text-[var(--paper)]">
+    <html lang="en" className={`${inter.variable} ${sora.variable} scroll-smooth`}>
+      <body className="antialiased bg-[#08080A] text-[#F1F1F3] selection:bg-[#E10600] selection:text-white">
         {children}
       </body>
     </html>
