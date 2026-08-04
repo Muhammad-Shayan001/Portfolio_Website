@@ -1,6 +1,5 @@
 import {
   fetchAllGitHubRepos,
-  getFallbackLiveProjects,
   splitProjects,
   type ProjectRepo,
 } from "./githubProjects";
@@ -78,6 +77,223 @@ const DEFAULT_PROJECT_IMAGES = [
   "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80",
 ];
 
+const FEATURED_PROJECTS: ProjectRepo[] = [
+  {
+    id: 1,
+    name: "Portfolio_Website",
+    formattedTitle: "Portfolio Website",
+    description: "A polished personal portfolio showcasing projects, skills, and professional contact.",
+    html_url: "https://github.com/Muhammad-Shayan001/Portfolio_Website",
+    homepage: "https://muhammadshayan.me",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 2,
+    name: "fj-nexus",
+    formattedTitle: "fj nexus",
+    description: "A modern business website for showcasing studio services and client work.",
+    html_url: "https://github.com/Muhammad-Shayan001/fj-nexus",
+    homepage: "https://fjnexus.studio",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 3,
+    name: "FJ-Store",
+    formattedTitle: "FJ Store",
+    description: "A responsive e-commerce storefront built for an online fashion and product store.",
+    html_url: "https://github.com/Muhammad-Shayan001/FJ-Store",
+    homepage: "https://fjstore.tech",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 4,
+    name: "nexus-portfolio",
+    formattedTitle: "nexus portfolio",
+    description: "A creative portfolio site presenting agency-style design and brand identity.",
+    html_url: "https://github.com/Muhammad-Shayan001/nexus-portfolio",
+    homepage: "https://nexus-portfolio-theta.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 5,
+    name: "CV-2.0",
+    formattedTitle: "CV 2.0",
+    description: "A clean, modern online CV built for dynamic professional presentation.",
+    html_url: "https://github.com/Muhammad-Shayan001/CV-2.0",
+    homepage: "https://cv-2-0-three.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 6,
+    name: "Resume",
+    formattedTitle: "Resume",
+    description: "An interactive resume site designed for recruiters and hiring managers.",
+    html_url: "https://github.com/Muhammad-Shayan001/Resume",
+    homepage: "https://resume-amber-eight.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 7,
+    name: "Hospital-Management-Website",
+    formattedTitle: "Hospital Management Website",
+    description: "A healthcare operations dashboard for patient and appointment management.",
+    html_url: "https://github.com/Muhammad-Shayan001/Hospital-Management-Website",
+    homepage: "https://hospital-management-website-one.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 8,
+    name: "School-Management-App",
+    formattedTitle: "School Management App",
+    description: "A school administration app for managing students, classes, and schedules.",
+    html_url: "https://github.com/Muhammad-Shayan001/School-Management-App",
+    homepage: "https://skolic-schools-management-app.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 9,
+    name: "School-Management-System",
+    formattedTitle: "School Management System",
+    description: "A complete school system solution for staff, classes, and student records.",
+    html_url: "https://github.com/Muhammad-Shayan001/School-Management-System",
+    homepage: "https://school-management-system-ebon-nine.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 10,
+    name: "school-management-demo",
+    formattedTitle: "School Management Demo",
+    description: "A polished demo version of a school operations dashboard with polished UX.",
+    html_url: "https://github.com/Muhammad-Shayan001/school-management-demo",
+    homepage: "https://school-management-demo-henna.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 11,
+    name: "Online_Store",
+    formattedTitle: "Online Store",
+    description: "An e-commerce storefront for browsing products and placing orders online.",
+    html_url: "https://github.com/Muhammad-Shayan001/Online_Store",
+    homepage: "https://online-store-neon-beta.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 12,
+    name: "Fashion_Store",
+    formattedTitle: "Fashion Store",
+    description: "A fashion retail website showcasing curated products and collections.",
+    html_url: "https://github.com/Muhammad-Shayan001/Fashion_Store",
+    homepage: "https://fashion-store-two-navy.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 13,
+    name: "Karachi_BBQ",
+    formattedTitle: "Karachi BBQ",
+    description: "A restaurant landing page for Karachi BBQ with menu and booking details.",
+    html_url: "https://github.com/Muhammad-Shayan001/Karachi_BBQ",
+    homepage: "https://karachi-bbq.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 14,
+    name: "eidi_app",
+    formattedTitle: "eidi app",
+    description: "A festive greeting app built for sharing Eidi wishes during celebrations.",
+    html_url: "https://github.com/Muhammad-Shayan001/eidi_app",
+    homepage: "https://eidi-app.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 15,
+    name: "Hackathon",
+    formattedTitle: "Hackathon",
+    description: "A hackathon showcase project built to demonstrate practical web features.",
+    html_url: "https://github.com/Muhammad-Shayan001/Hackathon",
+    homepage: "https://hackathon-gamma-three-64.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+  {
+    id: 16,
+    name: "Projects_Journey",
+    formattedTitle: "Projects Journey",
+    description: "A portfolio journey site documenting web development milestones and learning.",
+    html_url: "https://github.com/Muhammad-Shayan001/Projects_Journey",
+    homepage: "https://projects-journey.vercel.app",
+    language: "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    fork: false,
+    isLive: true,
+  },
+];
+
+function getFeaturedLiveProjects(): ProjectRepo[] {
+  return FEATURED_PROJECTS;
+}
+
+const UNWANTED_PROJECT_PATTERNS = [/Gift_Web_\d+/i, /^Bithday_Gift$/i];
+
 function getProjectImages(title: string): string[] {
   const normalized = title.toLowerCase();
   const match = TOPIC_IMAGE_SETS.find((topic) => topic.keywords.test(normalized));
@@ -98,19 +314,26 @@ function mapLiveRepoToCard(repo: ProjectRepo): ProjectCardData {
   };
 }
 
+function filterOutUnwantedProjects(repos: ProjectRepo[]) {
+  return repos.filter((repo) => {
+    const title = `${repo.name}`;
+    return !UNWANTED_PROJECT_PATTERNS.some((pattern) => pattern.test(title));
+  });
+}
+
 export async function loadProjectSets(username: string): Promise<ProjectDataSet> {
   try {
     const repos = await fetchAllGitHubRepos(username);
-    const { liveProjects, archiveProjects } = splitProjects(repos);
+    const { archiveProjects } = splitProjects(repos);
+    const filteredArchive = filterOutUnwantedProjects(archiveProjects);
 
-    const liveProjectCards = liveProjects.length > 0
-      ? liveProjects.map(mapLiveRepoToCard)
-      : getFallbackLiveProjects().map(mapLiveRepoToCard);
-
-    return { liveProjectCards, archiveProjects };
+    return {
+      liveProjectCards: getFeaturedLiveProjects().map(mapLiveRepoToCard),
+      archiveProjects: filteredArchive,
+    };
   } catch {
     return {
-      liveProjectCards: getFallbackLiveProjects().map(mapLiveRepoToCard),
+      liveProjectCards: getFeaturedLiveProjects().map(mapLiveRepoToCard),
       archiveProjects: [],
     };
   }

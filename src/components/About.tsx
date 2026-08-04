@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Cpu, CheckCircle2, GraduationCap } from "lucide-react";
+import { CheckCircle2, GraduationCap } from "lucide-react";
 
 const STATS = [
   { label: "Years Experience", value: "2+", desc: "Full Stack & Web Engineering" },
@@ -30,7 +31,7 @@ export default function About() {
 
         {/* Main Content Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Code Terminal Visual Card */}
+          {/* Left Column: Visual Profile Block */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -38,36 +39,31 @@ export default function About() {
             transition={{ duration: 0.7 }}
             className="lg:col-span-5 relative"
           >
-            <div className="relative rounded-3xl p-1 bg-gradient-to-b from-[#D4AF37]/30 via-red-950/30 to-transparent shadow-2xl shadow-red-950/20">
-              <div className="glass-card rounded-[23px] p-8 overflow-hidden relative">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#FF2C2C]"></span>
-                    <span className="w-3 h-3 rounded-full bg-[#F5D577]"></span>
-                    <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-                  </div>
-                  <span className="text-xs font-mono text-zinc-500">developer_bio.ts</span>
+            <div className="relative rounded-3xl p-1 bg-gradient-to-br from-[#F5D577]/40 via-slate-900/30 to-transparent shadow-2xl shadow-slate-950/40">
+              <div className="glass-card rounded-[28px] overflow-hidden border border-white/10 bg-[#09090E]/80 shadow-2xl shadow-black/30">
+                <div className="relative h-[28rem] sm:h-[32rem]">
+                  <Image
+                    src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80"
+                    alt="Developer working on a modern web app"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 </div>
-                <div className="font-mono text-xs text-zinc-300 space-y-2 leading-relaxed">
-                  <p className="text-zinc-500">{'// Personal Stack & Ethos'}</p>
-                  <p><span className="text-[#FF2C2C]">const</span> <span className="text-[#F5D577]">developer</span> = &#123;</p>
-                  <p className="pl-4">name: <span className="text-emerald-400">&quot;Muhammad Shayan&quot;</span>,</p>
-                  <p className="pl-4">location: <span className="text-emerald-400">&quot;Karachi, Pakistan&quot;</span>,</p>
-                  <p className="pl-4">role: <span className="text-[#F5D577]">&quot;Full Stack Developer&quot;</span>,</p>
-                  <p className="pl-4">academics: <span className="text-emerald-400">&quot;Software Engineering &amp; Dars-e-Nizami&quot;</span>,</p>
-                  <p className="pl-4">motto: <span className="text-emerald-400">&quot;Clean Code. Real Results.&quot;</span></p>
-                  <p>&#125;;</p>
-                </div>
-                <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#8B0000] to-[#E10600] p-[1px] flex items-center justify-center">
-                    <div className="w-full h-full bg-[#0A0A0E] rounded-[15px] flex items-center justify-center">
-                      <Cpu className="w-6 h-6 text-[#F5D577]" />
+                <div className="p-6 sm:p-8 border-t border-white/10 bg-[#020205]/85">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.4em] text-zinc-500">Profile</p>
+                      <h3 className="mt-3 text-xl font-black text-white">Muhammad Shayan</h3>
                     </div>
+                    <span className="rounded-full bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.35em] text-zinc-300">
+                      Karachi, PK
+                    </span>
                   </div>
-                  <div>
-                    <span className="block text-sm font-semibold text-white">Continuous Learner</span>
-                    <span className="text-xs text-zinc-400 font-mono">17 Kaggle AI Certifications</span>
-                  </div>
+                  <p className="text-sm leading-relaxed text-zinc-300">
+                    Full Stack Developer blending modern web engineering with thoughtful UI craft and data-driven problem solving.
+                  </p>
                 </div>
               </div>
             </div>

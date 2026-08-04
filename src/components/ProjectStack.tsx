@@ -99,21 +99,60 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
     const context = gsap.context(() => {
       const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
-      const lastCard = cards[cards.length - 1];
 
       cards.forEach((card, index) => {
-        if (index === cards.length - 1) return;
-
+        const nextCard = cards[index + 1];
         ScrollTrigger.create({
           trigger: card,
           start: "top top",
-          endTrigger: lastCard,
-          end: "bottom bottom",
+          endTrigger: nextCard || card,
+          end: nextCard ? "bottom top" : "bottom bottom",
           pin: true,
           pinSpacing: false,
           anticipatePin: 1,
+          scrub: 0.6,
           invalidateOnRefresh: true,
         });
+
+        if (nextCard) {
+          gsap.fromTo(
+            card,
+            { scale: 1, filter: "brightness(1)", y: 0 },
+            {
+              scale: 0.96,
+              filter: "brightness(0.78)",
+              y: -34,
+              ease: "none",
+              scrollTrigger: {
+                trigger: card,
+                start: "top top",
+                endTrigger: nextCard,
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+
+          gsap.fromTo(
+            nextCard,
+            { opacity: 0.74, y: 40, scale: 0.98 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: card,
+                start: "top top",
+                endTrigger: nextCard,
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            }
+          );
+        }
       });
 
       ScrollTrigger.refresh();
