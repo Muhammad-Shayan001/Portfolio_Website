@@ -10,12 +10,26 @@ const MARQUEE_SPEED = 35;
 
 function ArchiveRepoCard({ project }: { project: ProjectRepo }) {
   return (
-    <article className="group relative h-full min-w-[320px] max-w-[360px] flex-1 overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0B0B0F]/90 p-5 shadow-2xl shadow-black/50 transition-all duration-300 hover:border-transparent hover:shadow-red-950/30">
+    <article className="group relative h-full min-w-[320px] max-w-[360px] flex-1 overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0B0B0F]/90 shadow-2xl shadow-black/50 transition-all duration-300 hover:border-transparent hover:shadow-red-950/30">
+      {project.imageUrl ? (
+        <div className="relative h-44 overflow-hidden rounded-t-[1.75rem]">
+          <img
+            src={project.imageUrl}
+            alt={`${project.formattedTitle} preview`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        </div>
+      ) : (
+        <div className="relative h-44 rounded-t-[1.75rem] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950" />
+      )}
+
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(225,6,0,0.14),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(245,213,119,0.12),transparent_30%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),transparent_45%,rgba(255,255,255,0.01))]" />
       <div className="absolute inset-0 rounded-[1.75rem] border border-white/5 group-hover:border-transparent group-hover:bg-gradient-to-r group-hover:from-[#E10600]/70 group-hover:via-[#D4AF37]/40 group-hover:to-[#8B0000]/70" />
 
-      <div className="relative z-10 flex h-full flex-col justify-between gap-6">
+      <div className="relative z-10 flex h-full flex-col justify-between gap-6 p-5 pt-6">
         <div>
           <div className="flex items-center justify-between gap-3">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-mono uppercase tracking-[0.3em] text-zinc-300">

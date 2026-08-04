@@ -8,24 +8,40 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showHeroImage, setShowHeroImage] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [autoPlayBlocked, setAutoPlayBlocked] = useState(false);
+
+  const tryPlayWithSound = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = false;
+    try {
+      await video.play();
+      setIsMuted(false);
+      setAutoPlayBlocked(false);
+    } catch {
+      video.muted = true;
+      setIsMuted(true);
+      setAutoPlayBlocked(true);
+    }
+  };
 
   const toggleMute = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // If currently muted, try to unmute and play (user interaction should allow sound).
     if (video.muted) {
       video.muted = false;
       try {
         await video.play();
         setIsMuted(false);
+        setAutoPlayBlocked(false);
       } catch {
-        // Fallback to muted if autoplay with sound is still blocked
         video.muted = true;
         setIsMuted(true);
+        setAutoPlayBlocked(true);
       }
     } else {
-      // Mute immediately
       video.muted = true;
       setIsMuted(true);
     }
@@ -52,23 +68,13 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    tryPlayWithSound();
+  }, []);
 
-    video.muted = isMuted;
-    video
-      .play()
-      .catch(() => {
-        if (!isMuted) {
-          setIsMuted(true);
-          video.muted = true;
-        }
-      });
-  }, [isMuted]);
 
   return (
     <section id="hero" className="relative w-full overflow-hidden bg-black">
-      <div className="relative h-screen w-full overflow-hidden">
+      <div className="relative  h-screen w-full overflow-hidden">
         <motion.video
           ref={videoRef}
           autoPlay

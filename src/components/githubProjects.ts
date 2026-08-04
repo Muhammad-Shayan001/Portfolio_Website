@@ -22,6 +22,7 @@ export interface ProjectRepo {
   forks_count: number;
   fork: boolean;
   isLive: boolean;
+  imageUrl?: string;
 }
 
 const FALLBACK_LIVE_PROJECTS: ProjectRepo[] = [

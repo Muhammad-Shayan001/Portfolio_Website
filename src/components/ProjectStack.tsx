@@ -34,13 +34,11 @@ function ProjectGallery({ project, onImageLoad }: { project: ProjectCardData; on
           key={`${project.id}-${src}`}
           className={`relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/30 ${index === 0 ? "sm:col-span-2 sm:h-[24rem]" : "h-48 sm:h-auto"}`}
         >
-          <Image
+          <img
             src={src}
             alt={`${project.name} screenshot ${index + 1}`}
-            fill
-            priority={index === 0}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
+            loading={index === 0 ? "eager" : "lazy"}
+            className="w-full h-full object-cover"
             onLoad={onImageLoad}
           />
         </div>
