@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0E1116;
+  --color-paper: #F6F4EF;
+  --color-signal: #C9622D;
+  --color-steel: #7C8894;
+  --color-line: #242A31;
+}
+
+@layer base {
+  :root {
+    --ink: #0E1116;
+    --paper: #F6F4EF;
+    --signal: #C9622D;
+    --steel: #7C8894;
+    --line: #242A31;
+    background-color: var(--ink);
+    color: var(--paper);
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-fraunces), serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-ibm-plex-mono), monospace;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom Scrollbar for the Build Log if needed */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

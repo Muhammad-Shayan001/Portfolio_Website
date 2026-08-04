@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Muhammad Shayan - Personal Portfolio
 
-# Run and deploy your AI Studio app
+A professional developer portfolio built from the ground up, moving away from generic AI templates to a bespoke, intentional design. 
 
-This contains everything you need to run your app locally.
+## Tech Stack
+- Next.js 14+ (App Router)
+- TypeScript
+- Tailwind CSS (v4)
+- Framer Motion (restrained, purposeful animations only)
 
-View your app in AI Studio: https://ai.studio/apps/571ae9e0-190f-45a0-bf5c-1e2b48252e37
+## Design System
+- **Colors**: Ink (`#0E1116`), Paper (`#F6F4EF`), Signal (`#C9622D`), Steel (`#7C8894`), Line (`#242A31`)
+- **Typography**: Fraunces (Display), Inter (Body), IBM Plex Mono (Code/Accents)
+- **Layout**: Asymmetric design breaking away from uniform card grids, featuring a signature vertical "Build Log".
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
+## Running Locally
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Adding Assets
+Ensure that real project screenshots and photos are placed in `public/images/`:
+- `hero-photo.jpg` (Hero Section)
+- `skolic-dashboard.png` (Skolic Project)
+- `fjnexus-platform.png` (FJ Nexus Project)
+- `freelancer-suite.png` (Freelancer Suite Project)
