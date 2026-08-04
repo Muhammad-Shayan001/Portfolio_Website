@@ -2,14 +2,12 @@
 
 @layer base {
   :root {
-    --bg-primary: #08080A;
+    --bg-primary: #000000;
     --text-primary: #F1F1F3;
     --accent-gold-start: #D4AF37;
     --accent-gold-mid: #F5D577;
     --accent-gold-end: #B8860B;
-    --accent-red-deep: #6E0E0E;
-    --accent-red-bright: #E10600;
-    --glass-bg: rgba(12, 12, 16, 0.65);
+    --glass-bg: rgba(10, 10, 12, 0.88);
     --glass-border: rgba(255, 255, 255, 0.08);
   }
 
@@ -44,22 +42,18 @@
   -webkit-text-fill-color: transparent;
 }
 
-.text-red-glow {
-  color: #FF2C2C;
-  text-shadow: 0 0 12px rgba(225, 6, 0, 0.6);
-}
-
 .btn-red-gradient {
-  background: linear-gradient(135deg, #8B0000 0%, #E10600 100%);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(245, 213, 119, 0.16) 100%);
+  color: #F5D577;
   font-weight: 500;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(245, 213, 119, 0.15);
 }
 
 .btn-red-gradient:hover {
-  box-shadow: 0 0 30px rgba(225, 6, 0, 0.45);
+  box-shadow: 0 0 30px rgba(245, 213, 119, 0.25);
   transform: translateY(-2px);
 }
 
@@ -71,23 +65,23 @@
 }
 
 .btn-gold-outline:hover {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(245, 213, 119, 0.12);
   border-color: rgba(245, 213, 119, 0.8);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 20px rgba(245, 213, 119, 0.18);
   transform: translateY(-2px);
 }
 
 .glass-card {
-  background: rgba(15, 15, 20, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(10, 10, 12, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.3s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(212, 175, 55, 0.4);
-  box-shadow: 0 10px 30px -10px rgba(225, 6, 0, 0.2);
+  border-color: rgba(245, 213, 119, 0.25);
+  box-shadow: 0 20px 90px -30px rgba(0, 0, 0, 0.6);
   transform: translateY(-4px);
 }
 
@@ -95,7 +89,44 @@
   transition: all 0.3s ease;
 }
 .border-red-gold-hover:hover {
-  border-image: linear-gradient(135deg, #E10600, #D4AF37) 1;
+  border-image: linear-gradient(135deg, #D4AF37, #F5D577) 1;
+}
+
+/* Animations */
+@keyframes goldShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #525252;
 }
 
 /* Animations */

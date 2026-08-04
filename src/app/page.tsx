@@ -32,14 +32,14 @@ export default function Home() {
       {/* Skills / Technical Arsenal */}
       <Skills />
 
-      {/* GitHub-Powered Horizontal Moving Projects Marquee */}
+      {/* Scroll-Driven Projects Stack */}
       <Projects />
-
-      {/* Experience Timeline */}
-      <Experience />
 
       {/* Education & Certifications */}
       <Education />
+
+      {/* Experience Timeline */}
+      <Experience />
 
       {/* Contact Section */}
       <Contact />

@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Cpu, CheckCircle2, GraduationCap, FolderGit2, ArrowRight, Sparkles } from "lucide-react";
-import { FaGithub, FaLinkedin, FaYoutube } from "react-icons/fa6";
+import { Cpu, CheckCircle2, GraduationCap } from "lucide-react";
 
 const STATS = [
   { label: "Years Experience", value: "2+", desc: "Full Stack & Web Engineering" },
@@ -12,97 +11,24 @@ const STATS = [
 ];
 
 export default function About() {
-  const handleScrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section id="about" className="relative py-28 bg-[#08080A] overflow-hidden">
+    <section id="about" className="relative py-28 bg-[#08080A] overflow-hidden border-t border-white/5">
       {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#8B0000]/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-slate-900/70 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* ──── Name & Title Block (moved from Hero) ──── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
-        >
-          {/* Availability Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-xl mb-8">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E10600] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF2C2C]"></span>
-            </span>
-            <span className="text-xs font-mono tracking-wider uppercase text-zinc-300">
-              Available for Full-Stack & Engineering Roles
-            </span>
-            <Sparkles className="w-3.5 h-3.5 text-[#F5D577]" />
-          </div>
-
-          {/* Name */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-metallic leading-[1.05] mb-4">
-            Muhammad Shayan
-          </h1>
-
-          {/* Role */}
-          <div className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gold mb-6">
-            Full Stack Developer
-          </div>
-
-          {/* Bio */}
-          <p className="text-base sm:text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed mb-10">
-            Passionate developer crafting clean, efficient code to solve real-world problems.
-            Enthusiast of open-source collaboration and continuous learning.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center items-center gap-5 mb-8">
-            <button
-              onClick={() => handleScrollTo("projects")}
-              className="btn-red-gradient px-8 py-4 rounded-full text-sm font-semibold tracking-wider uppercase flex items-center gap-3 group cursor-pointer shadow-xl shadow-red-900/50"
-            >
-              <FolderGit2 className="w-4 h-4 text-white" />
-              <span>View My Work</span>
-              <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button
-              onClick={() => handleScrollTo("contact")}
-              className="btn-gold-outline px-8 py-4 rounded-full text-sm font-semibold tracking-wider uppercase flex items-center gap-3 cursor-pointer"
-            >
-              <span>Contact Me</span>
-            </button>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex items-center justify-center gap-6 text-zinc-400">
-            <a href="https://github.com/Muhammad-Shayan001" target="_blank" rel="noopener noreferrer" className="hover:text-[#F5D577] transition-colors p-2 hover:bg-white/5 rounded-full" aria-label="GitHub">
-              <FaGithub className="w-5 h-5" />
-            </a>
-            <a href="https://www.linkedin.com/in/muhammad-shayan-98113a260/" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF2C2C] transition-colors p-2 hover:bg-white/5 rounded-full" aria-label="LinkedIn">
-              <FaLinkedin className="w-5 h-5" />
-            </a>
-            <a href="https://www.youtube.com/@studywithmuhammadshayan" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF2C2C] transition-colors p-2 hover:bg-white/5 rounded-full" aria-label="YouTube">
-              <FaYoutube className="w-5 h-5" />
-            </a>
-          </div>
-        </motion.div>
-
-        {/* ──── Section Heading ──── */}
+        {/* Section Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6 }}
           className="text-4xl md:text-6xl font-extrabold tracking-tight text-metallic mb-16"
         >
           Crafting Digital Solutions With <span className="text-gold">Precision & Purpose</span>
         </motion.h2>
 
-        {/* ──── Main Content Split Layout ──── */}
+        {/* Main Content Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Code Terminal Visual Card */}
           <motion.div
@@ -123,13 +49,13 @@ export default function About() {
                   <span className="text-xs font-mono text-zinc-500">developer_bio.ts</span>
                 </div>
                 <div className="font-mono text-xs text-zinc-300 space-y-2 leading-relaxed">
-                  <p className="text-zinc-500">// Personal Stack & Ethos</p>
+                  <p className="text-zinc-500">{'// Personal Stack & Ethos'}</p>
                   <p><span className="text-[#FF2C2C]">const</span> <span className="text-[#F5D577]">developer</span> = &#123;</p>
-                  <p className="pl-4">name: <span className="text-emerald-400">"Muhammad Shayan"</span>,</p>
-                  <p className="pl-4">location: <span className="text-emerald-400">"Karachi, Pakistan"</span>,</p>
-                  <p className="pl-4">role: <span className="text-[#F5D577]">"Full Stack Developer"</span>,</p>
-                  <p className="pl-4">academics: <span className="text-emerald-400">"Software Engineering & Dars-e-Nizami"</span>,</p>
-                  <p className="pl-4">motto: <span className="text-emerald-400">"Clean Code. Real Results."</span></p>
+                  <p className="pl-4">name: <span className="text-emerald-400">&quot;Muhammad Shayan&quot;</span>,</p>
+                  <p className="pl-4">location: <span className="text-emerald-400">&quot;Karachi, Pakistan&quot;</span>,</p>
+                  <p className="pl-4">role: <span className="text-[#F5D577]">&quot;Full Stack Developer&quot;</span>,</p>
+                  <p className="pl-4">academics: <span className="text-emerald-400">&quot;Software Engineering &amp; Dars-e-Nizami&quot;</span>,</p>
+                  <p className="pl-4">motto: <span className="text-emerald-400">&quot;Clean Code. Real Results.&quot;</span></p>
                   <p>&#125;;</p>
                 </div>
                 <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-4">

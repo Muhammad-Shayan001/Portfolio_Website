@@ -60,8 +60,8 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative py-28 bg-[#08080A] border-t border-white/5 overflow-hidden">
-      {/* Background Red Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-red-950/15 rounded-full blur-[190px] pointer-events-none" />
+      {/* Background Soft Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-slate-900/30 rounded-full blur-[190px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header Tag */}
@@ -86,7 +86,7 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl md:text-6xl font-extrabold tracking-tight text-gold mb-16"
         >
-          Let's Build Something Extraordinary Together
+          Let&apos;s Build Something Extraordinary Together
         </motion.h2>
 
         {/* Split Layout Container */}
@@ -108,7 +108,7 @@ export default function Contact() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="p-8 rounded-2xl bg-gradient-to-br from-[#8B0000]/40 to-[#0A0A0E] border border-[#FF2C2C]/40 text-center flex flex-col items-center gap-4"
+                className="p-8 rounded-2xl bg-[#0B0B0F] border border-white/10 text-center flex flex-col items-center gap-4"
               >
                 <div className="w-16 h-16 rounded-full bg-[#E10600]/20 flex items-center justify-center text-[#FF2C2C]">
                   <CheckCircle2 className="w-8 h-8" />
@@ -186,7 +186,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn-red-gradient w-full py-4 rounded-xl text-sm font-semibold uppercase tracking-wider flex items-center justify-center gap-3 cursor-pointer shadow-lg shadow-red-900/50"
+                  className="btn-gold-outline w-full py-4 rounded-xl text-sm font-semibold uppercase tracking-wider flex items-center justify-center gap-3 cursor-pointer shadow-lg shadow-black/25"
                 >
                   {submitting ? (
                     <div className="w-5 h-5 border-2 border-t-white border-white/20 rounded-full animate-spin"></div>
