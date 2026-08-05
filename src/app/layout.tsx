@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable} scroll-smooth`}>
-      <body className="antialiased bg-[#08080A] text-[#F1F1F3] selection:bg-[#E10600] selection:text-white">
+      <body suppressHydrationWarning className="antialiased bg-[#08080A] text-[#F1F1F3] selection:bg-[#E10600] selection:text-white">
         <Navbar />
         {children}
       </body>

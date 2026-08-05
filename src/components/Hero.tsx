@@ -7,14 +7,24 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showHeroImage, setShowHeroImage] = useState(false);
 
-  const tryPlayWithSound = async () => {
+  const tryPlayVideo = async () => {
     const video = videoRef.current;
     if (!video) return;
+
+    video.muted = true;
+    video.volume = 1;
 
     try {
       await video.play();
     } catch {
-      // Autoplay with sound may be blocked by the browser
+      return;
+    }
+
+    try {
+      video.muted = false;
+      await video.play();
+    } catch {
+      video.muted = true;
     }
   };
 
@@ -39,9 +49,8 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    tryPlayWithSound();
+    tryPlayVideo();
   }, []);
-
 
   return (
     <section id="hero" className="relative w-full overflow-hidden bg-black">

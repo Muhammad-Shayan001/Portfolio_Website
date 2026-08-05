@@ -106,9 +106,9 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
           endTrigger: nextCard || card,
           end: nextCard ? "bottom top" : "bottom bottom",
           pin: true,
-          pinSpacing: false,
+          pinSpacing: true,
           anticipatePin: 1,
-          scrub: 0.6,
+          scrub: 1,
           invalidateOnRefresh: true,
         });
 
@@ -119,7 +119,7 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
             {
               scale: 0.96,
               filter: "brightness(0.78)",
-              y: -34,
+              y: -24,
               ease: "none",
               scrollTrigger: {
                 trigger: card,
@@ -134,7 +134,7 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
           gsap.fromTo(
             nextCard,
-            { opacity: 0.74, y: 40, scale: 0.98 },
+            { opacity: 0.72, y: 48, scale: 0.96 },
             {
               opacity: 1,
               y: 0,
