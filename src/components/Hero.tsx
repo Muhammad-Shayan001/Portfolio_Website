@@ -7,13 +7,14 @@ import { Volume2, VolumeX } from "lucide-react";
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showHeroImage, setShowHeroImage] = useState(false);
-  const [muted, setMuted] = useState(true);
+  // Start unmuted when we can; browsers that block autoplay-with-audio will
+  // fall back to muted and we'll unmute on the first user gesture.
+  const [muted, setMuted] = useState(false);
   const [audioReady, setAudioReady] = useState(false);
-  const [promptDismissed, setPromptDismissed] = useState(false);
+  const audioUnlockedRef = useRef(false);
 
-  // Start muted (browsers allow autoplay when muted). Once the user interacts
-  // with the page we unlock audio and switch the <video> into un-muted playback
-  // — this is the only reliable way to get sound playing.
+  // Try unmuted autoplay first; if the browser refuses, fall back to muted.
+  // Either way we end up with the video running.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -24,67 +25,97 @@ export default function Hero() {
         setShowHeroImage(true);
       }
     };
-
     video.addEventListener("ended", handleEnded);
     video.addEventListener("timeupdate", handleTimeUpdate);
 
-    // Attempt muted autoplay as soon as the video can play.
-    const tryStart = async () => {
+    const startPlayback = async (withAudio: boolean) => {
       try {
-        video.muted = true;
+        video.muted = !withAudio;
+        video.volume = 1;
         await video.play();
+        if (withAudio) {
+          setMuted(false);
+          setAudioReady(true);
+        } else {
+          setMuted(true);
+        }
       } catch {
-        // Autoplay blocked entirely (very rare); user must click play manually.
+        // Couldn't even play muted; leave the poster visible.
+        setMuted(true);
       }
     };
-    tryStart();
+
+    startPlayback(true); // request audio with autoplay
+    // Safety net: if audio autoplay was blocked, start muted so the video
+    // still runs visually.
+    const safetyTimer = window.setTimeout(() => {
+      if (!audioUnlockedRef.current && video.paused) {
+        startPlayback(false);
+      }
+    }, 600);
 
     return () => {
+      window.clearTimeout(safetyTimer);
       video.removeEventListener("ended", handleEnded);
       video.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, []);
 
-  // Promote any user gesture (click, key, touch, scroll) into an unmute.
-  const unlockAudio = async () => {
-    const video = videoRef.current;
-    if (!video || audioReady) return;
-    try {
-      video.muted = false;
-      video.volume = 1;
-      await video.play();
-      setMuted(false);
-      setAudioReady(true);
-      setPromptDismissed(true);
-    } catch {
-      // Still blocked; keep muted state so the prompt remains visible.
-      video.muted = true;
-      setMuted(true);
-    }
-  };
-
+  // The moment the user does ANYTHING — scroll, click, move the mouse,
+  // touch, press a key — browsers count that as a user gesture and we can
+  // unmute the video. This is how every autoplay-with-audio site works.
   useEffect(() => {
-    const opts = { once: true } as AddEventListenerOptions;
-    window.addEventListener("pointerdown", unlockAudio, opts);
-    window.addEventListener("keydown", unlockAudio, opts);
-    window.addEventListener("touchstart", unlockAudio, opts);
-    window.addEventListener("scroll", unlockAudio, opts);
-    return () => {
-      window.removeEventListener("pointerdown", unlockAudio, opts);
-      window.removeEventListener("keydown", unlockAudio, opts);
-      window.removeEventListener("touchstart", unlockAudio, opts);
-      window.removeEventListener("scroll", unlockAudio, opts);
+    const unlockAudio = async () => {
+      if (audioUnlockedRef.current) return;
+      const video = videoRef.current;
+      if (!video) return;
+      audioUnlockedRef.current = true;
+
+      try {
+        video.muted = false;
+        video.volume = 1;
+        await video.play();
+        setMuted(false);
+        setAudioReady(true);
+      } catch {
+        // Still blocked. Leave muted so the page isn't broken.
+        video.muted = true;
+        setMuted(true);
+      }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [audioReady]);
+
+    const events: Array<keyof WindowEventMap> = [
+      "pointerdown",
+      "pointerup",
+      "mousedown",
+      "mouseup",
+      "mousemove",
+      "click",
+      "touchstart",
+      "touchend",
+      "keydown",
+      "scroll",
+      "wheel",
+    ];
+
+    const opts = { once: true, passive: true } as AddEventListenerOptions;
+    events.forEach((name) => window.addEventListener(name, unlockAudio, opts));
+
+    return () => {
+      events.forEach((name) => window.removeEventListener(name, unlockAudio));
+    };
+  }, []);
 
   const toggleMute = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const video = videoRef.current;
     if (!video) return;
+    audioUnlockedRef.current = true;
+
     if (muted) {
       try {
         video.muted = false;
+        video.volume = 1;
         await video.play();
         setMuted(false);
         setAudioReady(true);
@@ -126,21 +157,25 @@ export default function Hero() {
           className="absolute inset-0 h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
 
-        {/* Mute / unmute control */}
+        {/* Mute / unmute control — visible always so the user can override. */}
         <button
           type="button"
           onClick={toggleMute}
           aria-label={muted ? "Unmute video" : "Mute video"}
           className="absolute bottom-6 right-6 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white backdrop-blur-md transition hover:scale-105 hover:border-[#F5D577]/60 hover:bg-black/70"
         >
-          {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5 text-[#F5D577]" />}
+          {muted ? (
+            <VolumeX className="h-5 w-5" />
+          ) : (
+            <Volume2 className="h-5 w-5 text-[#F5D577]" />
+          )}
         </button>
 
-        {/* "Tap to enable sound" hint — fades away after first interaction. */}
+        {/* Subtle "sound on" indicator that fades out once audio is live. */}
         <AnimatePresence>
-          {!audioReady && !promptDismissed && (
+          {!audioReady && muted && (
             <motion.div
               key="sound-hint"
               initial={{ opacity: 0, y: 10 }}
@@ -151,12 +186,11 @@ export default function Hero() {
             >
               <button
                 type="button"
-                onClick={unlockAudio}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-[#F5D577]/40 bg-black/55 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-[#F5D577] backdrop-blur-md transition hover:border-[#F5D577] hover:bg-black/75"
+                onClick={toggleMute}
+                className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-black/55 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/90 backdrop-blur-md transition hover:border-[#F5D577]/60 hover:text-[#F5D577]"
               >
                 <VolumeX className="h-4 w-4" />
-                <span>Tap to enable sound</span>
-                <span className="ml-1 h-1.5 w-1.5 animate-pulse rounded-full bg-[#F5D577]" />
+                <span>Click anywhere for sound</span>
               </button>
             </motion.div>
           )}
