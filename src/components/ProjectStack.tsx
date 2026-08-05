@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -83,8 +82,9 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
     const lenis = new Lenis({
       smoothWheel: true,
-      syncTouch: true,
-      lerp: 0.08,
+      syncTouch: false,
+      lerp: 0.1,
+      duration: 1.2,
     });
 
     const raf = (time: number) => {
@@ -100,56 +100,81 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
       cards.forEach((card, index) => {
         const nextCard = cards[index + 1];
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top top",
-          endTrigger: nextCard || card,
-          end: nextCard ? "bottom top" : "bottom bottom",
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        });
+
+        // Pin each card while the next one slides up over it.
+        if (nextCard) {
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            endTrigger: nextCard,
+            end: "top top",
+            pin: true,
+            pinSpacing: false,
+            anticipatePin: 1,
+          });
+        }
+
+        // Stack entrance — outer wrapper just sits at translateY(depth),
+        // GSAP animates the inner article so transforms don't fight.
+        const article = card.querySelector<HTMLElement>(".project-article");
+        if (!article) return;
+
+        // Set initial state so the very first paint of stacked cards is offset.
+        if (index < cards.length - 1) {
+          gsap.set(article, {
+            scale: 0.94,
+            filter: "brightness(0.55) saturate(0.9)",
+            transformOrigin: "center top",
+          });
+        }
 
         if (nextCard) {
-          gsap.fromTo(
-            card,
-            { scale: 1, filter: "brightness(1)", y: 0 },
-            {
-              scale: 0.96,
-              filter: "brightness(0.78)",
-              y: -24,
-              ease: "none",
-              scrollTrigger: {
-                trigger: card,
-                start: "top top",
-                endTrigger: nextCard,
-                end: "bottom top",
-                scrub: true,
-                invalidateOnRefresh: true,
-              },
-            }
-          );
+          // As the user scrolls and the next card takes over, the previous one
+          // shrinks and dims — looks like a real stack being covered.
+          gsap.to(article, {
+            scale: 0.94,
+            filter: "brightness(0.55) saturate(0.9)",
+            transformOrigin: "center top",
+            ease: "none",
+            overwrite: true,
+            scrollTrigger: {
+              trigger: card,
+              start: "top top",
+              endTrigger: nextCard,
+              end: "top top",
+              scrub: 0.6,
+              invalidateOnRefresh: true,
+            },
+          });
 
-          gsap.fromTo(
-            nextCard,
-            { opacity: 0.72, y: 48, scale: 0.96 },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: card,
-                start: "top top",
-                endTrigger: nextCard,
-                end: "bottom top",
-                scrub: true,
-                invalidateOnRefresh: true,
+          // The next card rises in from below, scaled and dim, then resolves.
+          const nextArticle = nextCard.querySelector<HTMLElement>(".project-article");
+          if (nextArticle) {
+            gsap.fromTo(
+              nextArticle,
+              {
+                scale: 1.06,
+                y: 80,
+                filter: "brightness(0.4) saturate(0.7)",
+                transformOrigin: "center bottom",
               },
-            }
-          );
+              {
+                scale: 1,
+                y: 0,
+                filter: "brightness(1) saturate(1)",
+                ease: "none",
+                overwrite: true,
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top top",
+                  endTrigger: nextCard,
+                  end: "top top",
+                  scrub: 0.6,
+                  invalidateOnRefresh: true,
+                },
+              }
+            );
+          }
         }
       });
 
@@ -158,7 +183,7 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
     const refreshTimer = window.setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 200);
+    }, 250);
 
     return () => {
       window.clearTimeout(refreshTimer);
@@ -223,28 +248,23 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
   return (
     <section ref={containerRef} className="relative">
       {projects.map((project, index) => {
-        const depth = projects.length - index - 1;
-        const transformStyle = {
-          zIndex: index + 1,
-          transform: `translateY(${depth * 9}px) scale(${0.96 + index * 0.01})`,
-        };
-
         return (
           <div
             key={project.id}
             ref={(el) => {
               cardRefs.current[index] = el;
             }}
-            className="project-card h-screen w-full flex items-center justify-center relative"
-            style={{ zIndex: index + 1 }}
+            className="project-card relative flex h-screen w-full items-center justify-center px-4 sm:px-6"
+            style={{ zIndex: projects.length - index }}
           >
-            <article className="relative h-full w-full overflow-hidden border-t border-white/5 bg-black px-4 py-6 sm:px-6"
-              style={transformStyle}
+            <article
+              className="project-article relative h-[calc(100vh-3rem)] w-full max-w-7xl overflow-hidden rounded-[2rem] border border-white/10 bg-[#070707] shadow-2xl shadow-black/80"
+              style={{ willChange: "transform, filter" }}
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,213,119,0.06),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.04),transparent_28%)]" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.14)_0%,rgba(0,0,0,0.58)_58%,rgba(0,0,0,0.95)_100%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,213,119,0.10),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(225,6,0,0.10),transparent_32%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.55)_58%,rgba(0,0,0,0.95)_100%)]" />
 
-              <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#070707] shadow-2xl shadow-black/80 lg:flex-row">
+              <div className="relative z-10 flex h-full flex-col overflow-hidden lg:flex-row">
                 <div className="flex flex-1 flex-col justify-between gap-8 p-6 sm:p-10 lg:p-12">
                   <div>
                     <p className="text-xs uppercase tracking-[0.45em] text-zinc-400">Project {index + 1} of {projects.length}</p>
@@ -265,7 +285,7 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
 
                   <div className="flex flex-wrap gap-4">
                     {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-gold-outline inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-xs font-bold uppercase tracking-wider shadow-lg shadow-black/25">
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-red-gradient inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-xs font-bold uppercase tracking-wider shadow-lg shadow-black/25">
                         <ExternalLink className="h-4 w-4" />
                         <span>Visit Live Site</span>
                         <ArrowUpRight className="h-3.5 w-3.5" />
