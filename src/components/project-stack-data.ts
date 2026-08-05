@@ -44,6 +44,7 @@ const FEATURED_PROJECTS: ProjectCardData[] = [
     liveUrl: "https://fjnexus.studio",
     repoUrl: "https://github.com/Muhammad-Shayan001/fj-nexus",
     features: [],
+    
   },
   {
     id: 3,
