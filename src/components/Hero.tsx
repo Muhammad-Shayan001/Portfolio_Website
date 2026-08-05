@@ -68,13 +68,13 @@ export default function Hero() {
     }
   };
 
-  const imageVisible = state === "idle" || state === "ended";
-  const videoVisible = state === "playing" || state === "ended";
+  const imageVisible = state !== "playing";
+  const videoVisible = state === "playing";
   const buttonVisible = state === "idle";
 
   return (
     <section id="hero" className="relative w-full overflow-hidden bg-black">
-      <div className="relative h-screen w-full overflow-hidden">
+      <div className="relative aspect-[16/9] h-auto max-h-screen w-full overflow-hidden sm:aspect-auto sm:h-screen">
         {/* Poster / final frame image — visible at idle and after the video ends. */}
         <motion.img
           src="/hero-poster.jpg"
@@ -107,13 +107,11 @@ export default function Hero() {
           playsInline
           muted
           loop={false}
-          preload="none"
+          preload="metadata"
           poster="/hero-poster.jpg"
           initial={{ opacity: 0, scale: 1 }}
           animate={{
             opacity: videoVisible ? 1 : 0,
-            // As the video ends it pulls in slightly while fading — looks like
-            // a camera dolly onto the last frame before the cut to still.
             scale: videoVisible ? 1 : 1.04,
           }}
           transition={{

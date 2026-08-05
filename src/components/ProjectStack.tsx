@@ -43,14 +43,14 @@ function ProjectGallery({
           <div
             key={`${project.id}-${src}`}
             className={`relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/30 ${
-              isFeature ? "sm:col-span-2 sm:h-[24rem]" : "h-48 sm:h-auto"
+              isFeature ? "h-64 sm:col-span-2 sm:h-[24rem]" : "h-48 sm:h-56"
             }`}
           >
             <Image
               src={src}
               alt={`${project.name} screenshot ${index + 1}`}
               fill
-              sizes={isFeature ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
+              sizes={isFeature ? "(max-width: 768px) 100vw, 65vw" : "(max-width: 768px) 100vw, 35vw"}
               priority={priority && isFeature}
               className="object-cover"
               onLoad={onImageLoad}
