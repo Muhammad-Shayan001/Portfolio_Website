@@ -6,12 +6,14 @@ import { motion } from "framer-motion";
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showHeroImage, setShowHeroImage] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   const tryPlayVideo = async () => {
     const video = videoRef.current;
     if (!video) return;
 
     video.muted = true;
+    setMuted(true);
     video.volume = 1;
 
     try {
@@ -21,9 +23,11 @@ export default function Hero() {
     }
 
     try {
+      setMuted(false);
       video.muted = false;
       await video.play();
     } catch {
+      setMuted(true);
       video.muted = true;
     }
   };
@@ -59,6 +63,7 @@ export default function Hero() {
           ref={videoRef}
           autoPlay
           playsInline
+          muted={muted}
           loop={false}
           preload="auto"
           poster="/heroimage.png"

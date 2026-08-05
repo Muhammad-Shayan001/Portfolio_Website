@@ -40,7 +40,7 @@ const FEATURED_PROJECTS: ProjectCardData[] = [
     tagline: "Live deployed case study",
     description: "A modern business website for showcasing studio services and client work.",
     stack: ["TypeScript"],
-    images: ["/project-screenshots/id02.png"],
+    images: ["/id02.jpg"],
     liveUrl: "https://fjnexus.studio",
     repoUrl: "https://github.com/Muhammad-Shayan001/fj-nexus",
     features: [],
