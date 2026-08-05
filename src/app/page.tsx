@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="relative bg-[#08080A] min-h-screen text-[#F1F1F3] overflow-x-hidden pt-24">
+    <main className="relative bg-[#08080A] min-h-screen text-[#F1F1F3] overflow-x-hidden">
       {/* Background Subtle Radial Glow Texture */}
       <div
         className="fixed inset-0 opacity-[0.03] pointer-events-none z-0"

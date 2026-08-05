@@ -2,48 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Volume2, VolumeX } from "lucide-react";
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showHeroImage, setShowHeroImage] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [autoPlayBlocked, setAutoPlayBlocked] = useState(false);
 
   const tryPlayWithSound = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
     try {
       await video.play();
-      setIsMuted(false);
-      setAutoPlayBlocked(false);
     } catch {
-      video.muted = true;
-      setIsMuted(true);
-      setAutoPlayBlocked(true);
-    }
-  };
-
-  const toggleMute = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.muted) {
-      video.muted = false;
-      try {
-        await video.play();
-        setIsMuted(false);
-        setAutoPlayBlocked(false);
-      } catch {
-        video.muted = true;
-        setIsMuted(true);
-        setAutoPlayBlocked(true);
-      }
-    } else {
-      video.muted = true;
-      setIsMuted(true);
+      // Autoplay with sound may be blocked by the browser
     }
   };
 
@@ -78,7 +49,6 @@ export default function Hero() {
         <motion.video
           ref={videoRef}
           autoPlay
-          muted={isMuted}
           playsInline
           loop={false}
           preload="auto"
@@ -108,15 +78,6 @@ export default function Hero() {
         />
 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
-
-        {/* Floating mute/unmute button (removed the large info card above the video) */}
-        <button
-          aria-label={isMuted ? "Unmute video" : "Mute video"}
-          onClick={toggleMute}
-          className="absolute top-6 right-6 z-20 inline-flex items-center gap-2 rounded-full bg-black/40 p-3 backdrop-blur-md border border-white/10 text-white hover:bg-black/60"
-        >
-          {isMuted ? <VolumeX className="h-5 w-5 text-red-400" /> : <Volume2 className="h-5 w-5 text-emerald-400" />}
-        </button>
       </div>
     </section>
   );
