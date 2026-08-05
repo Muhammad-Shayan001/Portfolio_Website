@@ -1,43 +1,33 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import ProjectStack from "./ProjectStack";
-import AllRepositoriesMarquee from "./AllRepositoriesMarquee";
-import {
-  loadProjectSets,
-  type ProjectCardData,
-} from "./project-stack-data";
+import dynamic from "next/dynamic";
+import type { ProjectCardData } from "./project-stack-data";
 import type { ProjectRepo } from "./githubProjects";
 
-export default function Projects() {
-  const [liveProjects, setLiveProjects] = useState<ProjectCardData[]>([]);
-  const [archiveProjects, setArchiveProjects] = useState<ProjectRepo[]>([]);
+// ProjectStack and AllRepositoriesMarquee use browser-only APIs (GSAP,
+// Lenis, framer-motion runtime), so they are dynamically imported and the
+// wrapper renders lightweight loading fallbacks while the chunks download.
+const ProjectStack = dynamic(() => import("./ProjectStack"), {
+  loading: () => (
+    <div className="max-w-7xl mx-auto px-6 py-24 text-center text-zinc-400">
+      Loading featured projects...
+    </div>
+  ),
+});
 
-  useEffect(() => {
-    let cancelled = false;
+const AllRepositoriesMarquee = dynamic(() => import("./AllRepositoriesMarquee"), {
+  loading: () => (
+    <div className="max-w-7xl mx-auto px-6 py-24 text-center text-zinc-400">
+      Loading archived repositories...
+    </div>
+  ),
+});
 
-    async function loadProjects() {
-      try {
-        const data = await loadProjectSets("Muhammad-Shayan001");
-        if (!cancelled) {
-          setLiveProjects(data.liveProjectCards);
-          setArchiveProjects(data.archiveProjects);
-        }
-      } catch {
-        if (!cancelled) {
-          setLiveProjects([]);
-          setArchiveProjects([]);
-        }
-      }
-    }
-
-    loadProjects();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
+export default function Projects({
+  liveProjects,
+  archiveProjects,
+}: {
+  liveProjects: ProjectCardData[];
+  archiveProjects: ProjectRepo[];
+}) {
   return (
     <section id="projects" className="relative bg-[#08080A] border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6 pt-28 pb-12 relative z-10">

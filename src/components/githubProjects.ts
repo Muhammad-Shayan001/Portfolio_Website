@@ -277,7 +277,8 @@ export async function fetchAllGitHubRepos(username: string): Promise<ProjectRepo
 
   while (page <= 10) {
     const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100&page=${page}`
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100&page=${page}`,
+      { cache: "no-store" }
     );
 
     if (!response.ok) {

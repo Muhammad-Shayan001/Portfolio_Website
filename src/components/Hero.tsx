@@ -36,12 +36,24 @@ export default function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
+    // Hint the browser to start downloading the optimized MP4 immediately
+    // (preload="none" earlier meant nothing downloaded until now). Setting
+    // preload="auto" here kicks off the fetch right away on this user gesture
+    // so playback doesn't pause mid-stream on slower connections.
+    video.preload = "auto";
+    video.load();
+
     // This click handler IS the user gesture the browser is waiting for, so
     // audio plays right away alongside the video.
     try {
       video.muted = false;
       video.volume = 1;
-      await video.play();
+      // Play as soon as the browser has enough buffered; the second play()
+      // resumes naturally if the first starts paused on a slow network.
+      const playPromise = video.play();
+      if (playPromise) {
+        await playPromise.catch(() => undefined);
+      }
       setState("playing");
     } catch {
       // Extremely rare: play was rejected even from a click handler. Fall
@@ -65,11 +77,27 @@ export default function Hero() {
       <div className="relative h-screen w-full overflow-hidden">
         {/* Poster / final frame image — visible at idle and after the video ends. */}
         <motion.img
-          src="/heroimage.png"
+          src="/hero-poster.jpg"
           alt="Muhammad Shayan hero visual"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: imageVisible ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ opacity: 1, scale: 1 }}
+          animate={{
+            opacity: imageVisible ? 1 : 0,
+            // When the video finishes, the image scales up from a slightly
+            // smaller size — a subtle Ken Burns "push in" that gives the cut
+            // weight and makes the transition feel intentional.
+            scale: imageVisible ? 1 : 0.97,
+          }}
+          transition={{
+            opacity: { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: imageVisible ? 0 : 0.2 },
+            scale: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: imageVisible ? 0 : 0.2 },
+          }}
+          // Explicit width/height prevent layout shift while the lighter JPG
+          // downloads; loading=eager keeps it as the LCP image.
+          width={1920}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover"
         />
 
@@ -79,15 +107,46 @@ export default function Hero() {
           playsInline
           muted
           loop={false}
-          preload="auto"
-          poster="/heroimage.png"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: videoVisible ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          preload="none"
+          poster="/hero-poster.jpg"
+          initial={{ opacity: 0, scale: 1 }}
+          animate={{
+            opacity: videoVisible ? 1 : 0,
+            // As the video ends it pulls in slightly while fading — looks like
+            // a camera dolly onto the last frame before the cut to still.
+            scale: videoVisible ? 1 : 1.04,
+          }}
+          transition={{
+            opacity: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+            scale: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+          }}
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source src="/introVideo.mp4" type="video/mp4" />
+          {/* Use the smaller optimized MP4 (≈11MB vs 50MB) — same source, much
+              faster to download when the user clicks Start, so the video
+              doesn't buffer or pause mid-play on slow networks. */}
+          <source src="/introVideo-optimized.mp4" type="video/mp4" />
         </motion.video>
+
+        {/* Cinematic flash that fires exactly at the swap moment — a quick
+            gold light leak so the eye registers the transition. */}
+        <AnimatePresence>
+          {state === "ended" && (
+            <motion.div
+              key="flash"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.55, 0] }}
+              transition={{ duration: 0.85, times: [0, 0.35, 1], ease: "easeOut" }}
+              className="pointer-events-none absolute inset-0 z-10"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center, rgba(245,213,119,0.55) 0%, rgba(245,213,119,0.18) 35%, rgba(0,0,0,0) 70%)",
+                mixBlendMode: "screen",
+              }}
+              aria-hidden
+            />
+          )}
+        </AnimatePresence>
 
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
 

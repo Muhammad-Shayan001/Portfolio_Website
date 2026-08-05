@@ -91,79 +91,106 @@ export default function ProjectStack({ projects }: { projects: ProjectCardData[]
   }, []);
 
   // The actual GSAP + ScrollTrigger + Lenis setup. Lives in its own effect so
-  // cleanup always tears down everything cleanly (Strict Mode safe).
+  // cleanup always tears down everything cleanly (Strict Mode safe). The
+  // heavy lifting is deferred with requestIdleCallback so the initial paint
+  // and the first user interactions stay snappy.
   useEffect(() => {
     if (disableMotion) return;
     if (projects.length <= 1) return;
 
     ensureScrollTriggerRegistered();
 
-    // Smooth scrolling powered by Lenis, wired into GSAP's ticker so the
-    // ScrollTriggers stay perfectly in sync with the smoothed scroll value.
-    const lenis = new Lenis({
-      lerp: 0.1,
-      duration: 1.2,
-      smoothWheel: true,
-      syncTouch: false,
-    });
-    const raf = (time: number) => lenis.raf(time * 1000);
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    let cancelled = false;
+    let teardown: (() => void) | null = null;
 
-    const ctx = gsap.context(() => {
-      const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
-      const lastCard = cards[cards.length - 1];
-      if (!lastCard) return;
+    const setup = () => {
+      if (cancelled) return;
 
-      // Pin every card except the last one for the entire remaining distance
-      // through the stack — pinSpacing:false is what lets the next card's
-      // document flow overlap the pinned card, instead of pushing it down.
-      cards.forEach((card, i) => {
-        if (i === cards.length - 1) return;
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top top",
-          endTrigger: lastCard,
-          end: "bottom bottom",
-          pin: true,
-          pinSpacing: false,
-          anticipatePin: 1,
-        });
-
-        // Subtle "getting buried" polish: as the next card slides over the
-        // current one, this one recedes with scale + brightness. Scrub is
-        // fine here because we're animating a property, not pinning.
-        gsap.to(card, {
-          scale: 0.92,
-          filter: "brightness(0.7)",
-          transformOrigin: "center top",
-          ease: "none",
-          scrollTrigger: {
-            trigger: cards[i + 1],
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        });
+      // Smooth scrolling powered by Lenis, wired into GSAP's ticker so the
+      // ScrollTriggers stay perfectly in sync with the smoothed scroll value.
+      const lenis = new Lenis({
+        lerp: 0.1,
+        duration: 1.2,
+        smoothWheel: true,
+        syncTouch: false,
       });
+      const raf = (time: number) => lenis.raf(time * 1000);
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(raf);
+      gsap.ticker.lagSmoothing(0);
 
-      ScrollTrigger.refresh();
-    }, sectionRef);
+      const ctx = gsap.context(() => {
+        const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
+        const lastCard = cards[cards.length - 1];
+        if (!lastCard) return;
 
-    // Refresh once after images settle, since images can push layout around
-    // after the effect first measured the page.
-    const refreshTimer = window.setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 300);
+        // Pin every card except the last one for the entire remaining distance
+        // through the stack — pinSpacing:false is what lets the next card's
+        // document flow overlap the pinned card, instead of pushing it down.
+        cards.forEach((card, i) => {
+          if (i === cards.length - 1) return;
+
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            endTrigger: lastCard,
+            end: "bottom bottom",
+            pin: true,
+            pinSpacing: false,
+            anticipatePin: 1,
+          });
+
+          // Subtle "getting buried" polish: as the next card slides over the
+          // current one, this one recedes with scale + brightness. Scrub is
+          // fine here because we're animating a property, not pinning.
+          gsap.to(card, {
+            scale: 0.92,
+            filter: "brightness(0.7)",
+            transformOrigin: "center top",
+            ease: "none",
+            scrollTrigger: {
+              trigger: cards[i + 1],
+              start: "top bottom",
+              end: "top top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+        });
+
+        ScrollTrigger.refresh();
+      }, sectionRef);
+
+      // Refresh once after images settle, since images can push layout around
+      // after the effect first measured the page.
+      const refreshTimer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
+
+      teardown = () => {
+        window.clearTimeout(refreshTimer);
+        ctx.revert();
+        gsap.ticker.remove(raf);
+        lenis.destroy();
+      };
+    };
+
+    // Defer the heavy setup until the browser is idle so initial paint and
+    // first interactions stay snappy. Fall back to a small timeout where
+    // requestIdleCallback isn't available (older Safari).
+    const idle =
+      (window as unknown as { requestIdleCallback?: (cb: () => void) => number })
+        .requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
+    const idleHandle = idle(setup);
 
     return () => {
-      window.clearTimeout(refreshTimer);
-      ctx.revert();
-      gsap.ticker.remove(raf);
-      lenis.destroy();
+      cancelled = true;
+      if (typeof idleHandle === "number" && "cancelIdleCallback" in window) {
+        (window as unknown as { cancelIdleCallback: (h: number) => void }).cancelIdleCallback(idleHandle);
+      } else {
+        window.clearTimeout(idleHandle as number);
+      }
+      if (teardown) teardown();
     };
   }, [disableMotion, projects]);
 

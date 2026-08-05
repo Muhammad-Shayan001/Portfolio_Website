@@ -1,5 +1,5 @@
 import {
-  fetchAllGitHubRepos,
+  getFallbackLiveProjects,
   splitProjects,
   type ProjectRepo,
 } from "./githubProjects";
@@ -14,11 +14,6 @@ export interface ProjectCardData {
   liveUrl: string;
   repoUrl: string;
   features: string[];
-}
-
-export interface ProjectDataSet {
-  liveProjectCards: ProjectCardData[];
-  archiveProjects: ProjectRepo[];
 }
 
 // Images are embedded per-project to avoid generic/fake image assignment.
@@ -136,52 +131,15 @@ const FEATURED_PROJECTS: ProjectCardData[] = [
   },
 ];
 
-function getFeaturedLiveProjects(): ProjectCardData[] {
+export function getFeaturedLiveProjects(): ProjectCardData[] {
   return FEATURED_PROJECTS;
 }
 
 const UNWANTED_PROJECT_PATTERNS = [/Gift_Web_\d+/i, /^Bithday_Gift$/i];
 
-function mapLiveRepoToCard(repo: ProjectRepo): ProjectCardData {
-  return {
-    id: repo.id,
-    name: repo.name,
-    tagline: repo.homepage ? "Live deployed case study" : "Live project",
-    description: repo.description,
-    stack: [repo.language ?? "TypeScript"],
-    images: [],
-    liveUrl: repo.homepage ?? "",
-    repoUrl: repo.html_url,
-    features: [],
-  };
-}
-
-function filterOutUnwantedProjects(repos: ProjectRepo[]) {
+export function filterArchiveProjects(repos: ProjectRepo[]): ProjectRepo[] {
   return repos.filter((repo) => {
     const title = `${repo.name}`;
     return !UNWANTED_PROJECT_PATTERNS.some((pattern) => pattern.test(title));
   });
-}
-
-export async function loadProjectSets(username: string): Promise<ProjectDataSet> {
-  try {
-    const repos = await fetchAllGitHubRepos(username);
-    const { archiveProjects } = splitProjects(repos);
-    const filteredArchive = filterOutUnwantedProjects(archiveProjects);
-
-    return {
-      liveProjectCards: getFeaturedLiveProjects(),
-      archiveProjects: filteredArchive,
-    };
-  } catch {
-    return {
-      liveProjectCards: getFeaturedLiveProjects(),
-      archiveProjects: [],
-    };
-  }
-}
-
-export async function loadLiveProjectCards(username: string): Promise<ProjectCardData[]> {
-  const { liveProjectCards } = await loadProjectSets(username);
-  return liveProjectCards;
 }
