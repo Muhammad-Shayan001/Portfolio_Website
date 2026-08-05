@@ -2,196 +2,177 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX } from "lucide-react";
+import { Play, Volume2 } from "lucide-react";
+
+type PlaybackState = "idle" | "playing" | "ended";
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showHeroImage, setShowHeroImage] = useState(false);
-  // Start unmuted when we can; browsers that block autoplay-with-audio will
-  // fall back to muted and we'll unmute on the first user gesture.
-  const [muted, setMuted] = useState(false);
-  const [audioReady, setAudioReady] = useState(false);
-  const audioUnlockedRef = useRef(false);
+  // Start in "idle" so the image + button are the first thing the user sees.
+  // No autoplay attempt — the button is the explicit gate.
+  const [state, setState] = useState<PlaybackState>("idle");
 
-  // Try unmuted autoplay first; if the browser refuses, fall back to muted.
-  // Either way we end up with the video running.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleEnded = () => setShowHeroImage(true);
+    const handleEnded = () => setState("ended");
     const handleTimeUpdate = () => {
       if (video.duration && video.currentTime >= video.duration - 0.15) {
-        setShowHeroImage(true);
+        setState("ended");
       }
     };
+
     video.addEventListener("ended", handleEnded);
     video.addEventListener("timeupdate", handleTimeUpdate);
 
-    const startPlayback = async (withAudio: boolean) => {
-      try {
-        video.muted = !withAudio;
-        video.volume = 1;
-        await video.play();
-        if (withAudio) {
-          setMuted(false);
-          setAudioReady(true);
-        } else {
-          setMuted(true);
-        }
-      } catch {
-        // Couldn't even play muted; leave the poster visible.
-        setMuted(true);
-      }
-    };
-
-    startPlayback(true); // request audio with autoplay
-    // Safety net: if audio autoplay was blocked, start muted so the video
-    // still runs visually.
-    const safetyTimer = window.setTimeout(() => {
-      if (!audioUnlockedRef.current && video.paused) {
-        startPlayback(false);
-      }
-    }, 600);
-
     return () => {
-      window.clearTimeout(safetyTimer);
       video.removeEventListener("ended", handleEnded);
       video.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, []);
 
-  // The moment the user does ANYTHING — scroll, click, move the mouse,
-  // touch, press a key — browsers count that as a user gesture and we can
-  // unmute the video. This is how every autoplay-with-audio site works.
-  useEffect(() => {
-    const unlockAudio = async () => {
-      if (audioUnlockedRef.current) return;
-      const video = videoRef.current;
-      if (!video) return;
-      audioUnlockedRef.current = true;
-
-      try {
-        video.muted = false;
-        video.volume = 1;
-        await video.play();
-        setMuted(false);
-        setAudioReady(true);
-      } catch {
-        // Still blocked. Leave muted so the page isn't broken.
-        video.muted = true;
-        setMuted(true);
-      }
-    };
-
-    const events: Array<keyof WindowEventMap> = [
-      "pointerdown",
-      "pointerup",
-      "mousedown",
-      "mouseup",
-      "mousemove",
-      "click",
-      "touchstart",
-      "touchend",
-      "keydown",
-      "scroll",
-      "wheel",
-    ];
-
-    const opts = { once: true, passive: true } as AddEventListenerOptions;
-    events.forEach((name) => window.addEventListener(name, unlockAudio, opts));
-
-    return () => {
-      events.forEach((name) => window.removeEventListener(name, unlockAudio));
-    };
-  }, []);
-
-  const toggleMute = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const startVideo = async () => {
     const video = videoRef.current;
     if (!video) return;
-    audioUnlockedRef.current = true;
 
-    if (muted) {
+    // This click handler IS the user gesture the browser is waiting for, so
+    // audio plays right away alongside the video.
+    try {
+      video.muted = false;
+      video.volume = 1;
+      await video.play();
+      setState("playing");
+    } catch {
+      // Extremely rare: play was rejected even from a click handler. Fall
+      // back to muted so the video still runs visually.
       try {
-        video.muted = false;
-        video.volume = 1;
-        await video.play();
-        setMuted(false);
-        setAudioReady(true);
-      } catch {
         video.muted = true;
-        setMuted(true);
+        await video.play();
+        setState("playing");
+      } catch {
+        // Couldn't play at all — leave the button visible.
       }
-    } else {
-      video.muted = true;
-      setMuted(true);
     }
   };
+
+  const imageVisible = state === "idle" || state === "ended";
+  const videoVisible = state === "playing" || state === "ended";
+  const buttonVisible = state === "idle";
 
   return (
     <section id="hero" className="relative w-full overflow-hidden bg-black">
       <div className="relative h-screen w-full overflow-hidden">
+        {/* Poster / final frame image — visible at idle and after the video ends. */}
+        <motion.img
+          src="/heroimage.png"
+          alt="Muhammad Shayan hero visual"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: imageVisible ? 1 : 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        {/* Video — hidden until the user clicks Start. */}
         <motion.video
           ref={videoRef}
-          autoPlay
           playsInline
-          muted={muted}
+          muted
           loop={false}
           preload="auto"
           poster="/heroimage.png"
           initial={{ opacity: 0 }}
-          animate={{ opacity: showHeroImage ? 0 : 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          animate={{ opacity: videoVisible ? 1 : 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/introVideo.mp4" type="video/mp4" />
         </motion.video>
 
-        <motion.img
-          src="/heroimage.png"
-          alt="Muhammad Shayan hero visual"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showHeroImage ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
 
-        {/* Mute / unmute control — visible always so the user can override. */}
-        <button
-          type="button"
-          onClick={toggleMute}
-          aria-label={muted ? "Unmute video" : "Mute video"}
-          className="absolute bottom-6 right-6 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white backdrop-blur-md transition hover:scale-105 hover:border-[#F5D577]/60 hover:bg-black/70"
-        >
-          {muted ? (
-            <VolumeX className="h-5 w-5" />
-          ) : (
-            <Volume2 className="h-5 w-5 text-[#F5D577]" />
-          )}
-        </button>
-
-        {/* Subtle "sound on" indicator that fades out once audio is live. */}
+        {/* "Start Intro" button — themed to the site's gold/navy aesthetic. */}
         <AnimatePresence>
-          {!audioReady && muted && (
+          {buttonVisible && (
             <motion.div
-              key="sound-hint"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2"
+              key="start-button"
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.96 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
             >
-              <button
-                type="button"
-                onClick={toggleMute}
-                className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-black/55 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/90 backdrop-blur-md transition hover:border-[#F5D577]/60 hover:text-[#F5D577]"
+              {/* Eyebrow label */}
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.5 }}
+                className="mb-5 text-xs font-semibold uppercase tracking-[0.45em] text-[#F5D577]/90 sm:text-sm"
               >
-                <VolumeX className="h-4 w-4" />
-                <span>Click anywhere for sound</span>
-              </button>
+                Welcome to my portfolio
+              </motion.p>
+
+              {/* Heading */}
+              <motion.h1
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.5 }}
+                className="max-w-3xl text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl"
+              >
+                <span className="bg-gradient-to-b from-white to-zinc-300 bg-clip-text text-transparent">
+                  Muhammad Shayan
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+                className="mt-4 max-w-xl text-base text-zinc-300 sm:text-lg"
+              >
+                Full Stack Developer crafting clean, high-performance web
+                applications.
+              </motion.p>
+
+              {/* The themed button */}
+              <motion.button
+                type="button"
+                onClick={startVideo}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="group relative mt-10 inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-4 text-sm font-bold uppercase tracking-[0.25em] text-black shadow-2xl shadow-[#F5D577]/30 sm:px-10 sm:text-base"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #D4AF37 0%, #F5D577 50%, #B8860B 100%)",
+                }}
+                aria-label="Play intro video with sound"
+              >
+                {/* Shimmer overlay */}
+                <span
+                  className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+                  aria-hidden
+                />
+                <span className="relative z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/15">
+                  <Play className="h-4 w-4 fill-current" />
+                </span>
+                <span className="relative z-10">Start Intro</span>
+                <Volume2
+                  className="relative z-10 h-4 w-4 opacity-80"
+                  aria-hidden
+                />
+              </motion.button>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="mt-5 text-[11px] uppercase tracking-[0.35em] text-zinc-400"
+              >
+                Video plays with sound
+              </motion.p>
             </motion.div>
           )}
         </AnimatePresence>
