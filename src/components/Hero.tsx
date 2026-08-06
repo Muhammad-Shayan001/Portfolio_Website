@@ -77,7 +77,7 @@ export default function Hero() {
       <div className="relative aspect-[16/9] h-auto max-h-screen w-full overflow-hidden sm:aspect-auto sm:h-screen">
         {/* Poster / final frame image — visible at idle and after the video ends. */}
         <motion.img
-          src="/hero-poster.jpg"
+          src="/heroimage.png"
           alt="Muhammad Shayan hero visual"
           initial={{ opacity: 1, scale: 1 }}
           animate={{
