@@ -98,7 +98,7 @@ export default function Hero() {
           loading="eager"
           decoding="async"
           fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover brightness-[1.04] saturate-[1.05]"
         />
 
         {/* Video — hidden until the user clicks Start. */}
@@ -146,7 +146,23 @@ export default function Hero() {
           )}
         </AnimatePresence>
 
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.92))]" />
+        <AnimatePresence>
+          {state !== "ended" && (
+            <motion.div
+              key="hero-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.44) 50%, rgba(0,0,0,0.75) 100%)",
+              }}
+              aria-hidden
+            />
+          )}
+        </AnimatePresence>
 
         {/* "Start Intro" button — themed to the site's gold/navy aesthetic. */}
         <AnimatePresence>
