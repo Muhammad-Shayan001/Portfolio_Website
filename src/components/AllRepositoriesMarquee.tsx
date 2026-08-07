@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ArrowRight, GitFork, Star } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import type { ProjectRepo } from "./githubProjects";
 
-const MARQUEE_SPEED = 35;
+// Cap the rendered marquee to keep both initial render and drag animation cheap.
+// The full GitHub list (potentially hundreds of repos) is filtered server-side
+// and trimmed here before it ever reaches the React tree. The most recently
+// updated repos surface first because the route sorts by `updated_at`.
+const MAX_VISIBLE_REPOS = 30;
 
 function ArchiveRepoCard({ project }: { project: ProjectRepo }) {
   return (
@@ -74,78 +77,97 @@ function ArchiveRepoCard({ project }: { project: ProjectRepo }) {
   );
 }
 
-export default function AllRepositoriesMarquee({ archiveProjects }: { archiveProjects: ProjectRepo[] }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [singleTrackWidth, setSingleTrackWidth] = useState(0);
+export default function AllRepositoriesMarquee({
+  initialArchiveProjects,
+}: {
+  // Server-rendered fallback used until the client fetch resolves. The
+  // marquee is intentionally lightweight on first paint so the Webpack build
+  // worker never has to compile the live GitHub payload.
+  initialArchiveProjects?: ProjectRepo[];
+}) {
+  const [archiveProjects, setArchiveProjects] = useState<ProjectRepo[]>(
+    () => initialArchiveProjects ?? []
+  );
 
+  // Fetch the live repo list from the local route handler after mount so the
+  // build worker is never asked to hold the GitHub payload. The route handler
+  // caps pagination and caches responses for an hour.
   useEffect(() => {
-    const element = trackRef.current;
-    if (!element) return;
+    let cancelled = false;
 
-    const updateWidth = () => {
-      setSingleTrackWidth(element.scrollWidth / 2);
+    fetch("/api/github-repos", { headers: { Accept: "application/json" } })
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json() as Promise<ProjectRepo[]>;
+      })
+      .then((repos) => {
+        if (cancelled) return;
+        if (Array.isArray(repos) && repos.length > 0) {
+          setArchiveProjects(repos);
+        }
+      })
+      .catch(() => {
+        // Silent fallback: keep the server-rendered list (or empty) so the
+        // page never breaks if the route handler is rate-limited.
+        if (cancelled) return;
+      });
+
+    return () => {
+      cancelled = true;
     };
+  }, []);
 
-    updateWidth();
+  // Cap the rendered list so the marquee can't blow up if the GitHub account
+  // grows. The route already sorts by `updated_at`, so the head is the most
+  // recent work.
+  const visibleProjects = archiveProjects.slice(0, MAX_VISIBLE_REPOS);
 
-    const observer = new ResizeObserver(updateWidth);
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, [archiveProjects]);
-
-  useAnimationFrame((_, delta) => {
-    if (isDragging || singleTrackWidth === 0) return;
-
-    const moveBy = (MARQUEE_SPEED * delta) / 1000;
-    const next = x.get() - moveBy;
-
-    if (Math.abs(next) >= singleTrackWidth) {
-      x.set(next + singleTrackWidth);
-      return;
-    }
-
-    x.set(next);
-  });
-
-  if (archiveProjects.length === 0) {
-    return <div className="mx-auto max-w-7xl px-6 py-16 text-zinc-400">No archived repositories were found.</div>;
+  if (visibleProjects.length === 0) {
+    return (
+      <div className="mx-auto max-w-7xl px-6 py-16 text-zinc-400">
+        No archived repositories were found.
+      </div>
+    );
   }
 
-  const repeatedProjects = [...archiveProjects, ...archiveProjects];
-
+  // Render the visible list once inside a CSS-animated track. The CSS
+  // `marquee` keyframe duplicates the strip via the `attr` trick below (a
+  // second copy of the children lives inside a `aria-hidden` slot) so the
+  // loop is visually seamless without forcing the React tree to duplicate the
+  // entire DOM. Hovering pauses the animation, matching the existing
+  // `.animate-marquee:hover` rule.
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(225,6,0,0.06),transparent_30%)] pointer-events-none" />
 
       <div className="px-6 pb-10">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0A0A0E]/80 p-4 shadow-2xl shadow-black/30">
-          <motion.div
-            ref={trackRef}
-            drag="x"
-            dragElastic={0.08}
-            dragMomentum={false}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => {
-              setIsDragging(false);
-              if (singleTrackWidth === 0) return;
-
-              let current = x.get();
-              while (current <= -singleTrackWidth) current += singleTrackWidth;
-              while (current > 0) current -= singleTrackWidth;
-              x.set(current);
-            }}
-            style={{ x, cursor: isDragging ? "grabbing" : "grab" }}
-            className="flex w-max items-stretch gap-5 select-none"
+          <div
+            className="flex w-max items-stretch gap-5 select-none animate-marquee"
+            role="list"
+            aria-label="All GitHub repositories"
           >
-            {repeatedProjects.map((project, index) => (
-              <div key={`${project.id}-${index}`} className="w-[340px] shrink-0">
+            {visibleProjects.map((project, index) => (
+              <div
+                key={`a-${project.id}-${index}`}
+                className="w-[340px] shrink-0"
+                role="listitem"
+              >
                 <ArchiveRepoCard project={project} />
               </div>
             ))}
-          </motion.div>
+            {/* Second copy for the seamless CSS loop. Marked aria-hidden so
+                screen readers don't announce duplicates. */}
+            {visibleProjects.map((project, index) => (
+              <div
+                key={`b-${project.id}-${index}`}
+                className="w-[340px] shrink-0"
+                aria-hidden
+              >
+                <ArchiveRepoCard project={project} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -130,6 +130,13 @@
   background: #525252;
 }
 
+/* Page-level subtle radial glow texture. Lives in CSS instead of an inline
+   data: URL so the long SVG string isn't embedded in the JS module graph
+   that the Webpack build worker holds in memory. */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter%22/%3E%3C/svg%3E");
+}
+
 /* Animations */
 @keyframes goldShimmer {
   0% { background-position: 0% 50%; }
@@ -137,6 +144,10 @@
   100% { background-position: 0% 50%; }
 }
 
+/* Marquee loop for the GitHub repositories reel. Two copies of the card
+   strip live inside .animate-marquee; the keyframe shifts the entire
+   container left by 50% so the second copy seamlessly takes the place of
+   the first. Hover pauses the animation for inspection. */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
@@ -145,7 +156,8 @@
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 35s linear infinite;
+  animation: marquee 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee:hover {

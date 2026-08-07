@@ -1,8 +1,4 @@
-import {
-  getFallbackLiveProjects,
-  splitProjects,
-  type ProjectRepo,
-} from "./githubProjects";
+import type { ProjectRepo } from "./githubProjects";
 
 export interface ProjectCardData {
   id: number;
@@ -135,13 +131,16 @@ export function getFeaturedLiveProjects(): ProjectCardData[] {
   return FEATURED_PROJECTS;
 }
 
-const UNWANTED_PROJECT_PATTERNS = [/Gift_Web_\d+/i, /^Bithday_Gift$/i];
+// Same exclusion pattern as githubProjects.filterExcludedRepos — keeps the
+// fallback list rendered before /api/github-repos resolves on the client in
+// sync with whatever the live route handler returns.
+const UNWANTED_PROJECT_PATTERNS = [
+  /^gift[\s_-]*web[\s_-]*0*(?:[1-9]|[12]\d|3[0-3])$/i,
+  /^bithday[\s_-]*gift$/i,
+];
 
 export function filterArchiveProjects(repos: ProjectRepo[]): ProjectRepo[] {
-  return repos.filter((repo) => {
-    const title = `${repo.name}`;
-    return !UNWANTED_PROJECT_PATTERNS.some((pattern) => pattern.test(title));
-  });
-
-  
+  return repos.filter(
+    (repo) => !UNWANTED_PROJECT_PATTERNS.some((pattern) => pattern.test(repo.name))
+  );
 }

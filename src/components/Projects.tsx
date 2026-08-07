@@ -26,6 +26,10 @@ export default function Projects({
   archiveProjects,
 }: {
   liveProjects: ProjectCardData[];
+  // Server-rendered fallback list used by AllRepositoriesMarquee until it
+  // fetches the live repo list client-side. The marquee fetches from
+  // /api/github-repos so the Webpack build worker never has to compile the
+  // full GitHub payload.
   archiveProjects: ProjectRepo[];
 }) {
   return (
@@ -43,15 +47,15 @@ export default function Projects({
 
       <div className="max-w-7xl mx-auto px-6 py-12 sm:px-6">
         <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.35em] text-zinc-500">Archive</p>
-          <h3 className="mt-3 text-3xl font-extrabold text-metallic sm:text-4xl">Past repositories and side projects</h3>
+          <p className="text-sm uppercase tracking-[0.35em] text-zinc-500">GitHub Repositories</p>
+          <h3 className="mt-3 text-3xl font-extrabold text-metallic sm:text-4xl">All repositories from the account</h3>
           <p className="mx-auto mt-4 max-w-2xl text-base text-zinc-400">
-            A continuously updated showcase of archived GitHub repos, available as a scrollable marquee for quick browsing.
+            Browse the animated GitHub reel showing every repo except the gift web test repos. Drag, scroll, and enjoy the full repository showcase.
           </p>
         </div>
       </div>
 
-      <AllRepositoriesMarquee archiveProjects={archiveProjects} />
+      <AllRepositoriesMarquee initialArchiveProjects={archiveProjects} />
     </section>
   );
 }

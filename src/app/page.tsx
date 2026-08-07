@@ -2,7 +2,6 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-// import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -10,27 +9,30 @@ import {
   getFeaturedLiveProjects,
   filterArchiveProjects,
 } from "@/components/project-stack-data";
-import { getFallbackLiveProjects, splitProjects } from "@/components/githubProjects";
+import {
+  getFallbackLiveProjects,
+  splitProjects,
+} from "@/components/githubProjects";
 
 // Data is fully static — resolved at build time, no per-request network call.
 // This lets Next.js render the page as a static route on Vercel, so first
-// paint is instant on every visit.
+// paint is instant on every visit. The dynamic GitHub repo list is fetched
+// client-side from /api/github-repos by AllRepositoriesMarquee so the build
+// worker is never asked to hold the remote payload in memory. The fallback
+// below is a tiny, hand-curated list of 16 repos — it's the seed the marquee
+// shows while /api/github-repos warms up on the client.
 const liveProjects = getFeaturedLiveProjects();
-const archiveProjects = filterArchiveProjects(
+const fallbackArchive = filterArchiveProjects(
   splitProjects(getFallbackLiveProjects()).archiveProjects
 );
 
 export default function Home() {
   return (
     <main className="relative bg-[#08080A] min-h-screen text-[#F1F1F3] overflow-x-hidden">
-      {/* Background Subtle Radial Glow Texture */}
-      <div
-        className="fixed inset-0 opacity-[0.03] pointer-events-none z-0"
-        style={{
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter%22/%3E%3C/svg%3E")',
-        }}
-      ></div>
+      {/* Background Subtle Radial Glow Texture — defined in globals.css so
+          the long data: URL isn't embedded in the JS module graph that the
+          Webpack build worker has to hold in memory. */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-0 bg-noise" />
 
       {/* Hero Section with Video Background */}
       <Hero />
@@ -44,7 +46,7 @@ export default function Home() {
       {/* Scroll-Driven Projects Stack */}
       <Projects
         liveProjects={liveProjects}
-        archiveProjects={archiveProjects}
+        archiveProjects={fallbackArchive}
       />
 
       {/* Education & Certifications */}
@@ -61,3 +63,4 @@ export default function Home() {
     </main>
   );
 }
+

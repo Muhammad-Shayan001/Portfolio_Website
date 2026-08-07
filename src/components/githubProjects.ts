@@ -271,14 +271,35 @@ export function splitProjects(repos: ProjectRepo[]) {
   return { liveProjects, archiveProjects };
 }
 
-export async function fetchAllGitHubRepos(username: string): Promise<ProjectRepo[]> {
+export function filterExcludedRepos(repos: ProjectRepo[]) {
+  const excludedPattern = /^(gift[\s_-]*web[\s_-]*0*(?:[1-9]|[12]\d|3[0-3])|bithday[\s_-]*gift)$/i;
+  return repos.filter((repo) => !excludedPattern.test(repo.name));
+}
+
+export interface FetchAllGitHubReposOptions {
+  maxPages?: number;
+  perPage?: number;
+  signal?: AbortSignal;
+}
+
+export async function fetchAllGitHubRepos(
+  username: string,
+  options: FetchAllGitHubReposOptions = {}
+): Promise<ProjectRepo[]> {
+  const maxPages = Math.min(Math.max(options.maxPages ?? 10, 1), 10);
+  const perPage = Math.min(Math.max(options.perPage ?? 100, 1), 100);
+  const signal = options.signal;
   const allRepos: ProjectRepo[] = [];
   let page = 1;
 
-  while (page <= 10) {
+  while (page <= maxPages) {
     const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100&page=${page}`,
-      { cache: "no-store" }
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=${perPage}&page=${page}`,
+      {
+        cache: "no-store",
+        ...(signal ? { signal } : {}),
+        headers: { Accept: "application/vnd.github+json" },
+      }
     );
 
     if (!response.ok) {
@@ -293,7 +314,7 @@ export async function fetchAllGitHubRepos(username: string): Promise<ProjectRepo
 
     allRepos.push(...batch.map(normalizeRepo));
 
-    if (batch.length < 100) {
+    if (batch.length < perPage) {
       break;
     }
 
